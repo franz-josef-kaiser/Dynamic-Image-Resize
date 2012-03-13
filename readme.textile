@@ -15,9 +15,10 @@ Visit Franz Josef Kaiser at "his homepage":http://unserkaiser.com or get social 
 ----------------------------------------------------------------
 
 h3. How to use the shortcode
+
 Place <code>[dynamic_image]</code> in your content. The shortcode has four arguments:
 
-* <code>src</code> Full path to the image in your upload directory
+* <code>src</code> Full path to the image in your upload directory or the ID
 * <code>width</code> Integer value
 * <code>height</code> Integer value
 * <code>classes</code> Css classes - separated by a space
