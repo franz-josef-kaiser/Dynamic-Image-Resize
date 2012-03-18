@@ -6,7 +6,7 @@
  * Version: 0.5
  * Author: Franz Josef Kaiser <http://unserkaiser.com/contact/>
  * Author URI: http://unserkaiser.com
- * License: GNU GPL 2 <https://gist.github.com/1365159>
+ * License: MIT
  */
 // Prevent loading this file directly - Busted!
 if ( ! class_exists('WP') ) 
