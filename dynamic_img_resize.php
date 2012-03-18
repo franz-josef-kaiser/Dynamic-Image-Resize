@@ -4,7 +4,7 @@
  * Plugin URI: http://unserkaiser.com/plugins/dynamic-image-resize/
  * Description: Dynamically resizes the image. Enables the [dynamic_image] shortcode, pseudo-TimThumb but creates resized and cropped image files from existing media library entries. Usage: <code>[dynamic_image src="http://example.org/wp-content/uploads/2012/03/image.png" width="100" height="100"]</code> 
  * Version: 0.3
- * Author: Konstantin Kovshenin <http://kovshenin.com/contact/>, Franz Josef Kaiser <http://unserkaiser.com/contact/>
+ * Author: Franz Josef Kaiser <http://unserkaiser.com/contact/>
  * Author URI: http://unserkaiser.com
  * License: GNU GPL 2 <https://gist.github.com/1365159>
  */
@@ -49,7 +49,7 @@ class oxoDynamicImageResize
 	 */
 	public function __construct( $atts )
 	{
-		$this->atts = $atts;
+		$this->atts = $this->sanitize( $atts );
 	}
 
 
@@ -67,9 +67,12 @@ class oxoDynamicImageResize
 		if ( is_wp_error( $output ) )
 		{
 			// No error message for Guests or Subscribers
+			// Assuming that no one has activated caching plugins when debugging
+			// and not set WP_DEBUG to TRUE on a live site
 			if ( 
 				! is_user_logged_in()
 				AND ! current_user_can( 'edit_posts' ) 
+				AND ( ! defined( 'WP_DEBUG' ) OR ! WP_DEBUG )
 			)
 				return '';
 
@@ -77,6 +80,31 @@ class oxoDynamicImageResize
 		}
 
 		return $output;
+	}
+
+
+	/**
+	 * Sanitize attributes
+	 * 
+	 * @since 0.5
+	 * 
+	 * @param array $atts
+	 * 
+	 * @return array $atts
+	 */
+	public function sanitize( $atts )
+	{
+		// Get rid of eventual leading/trailing white spaces around atts 
+		$atts = array_map( 'trim', $this->atts );
+
+		# >>>> Sanitize
+		$atts['src']     = is_string( $atts['src'] ) ? esc_url( $atts['src'] ) : absint( $atts['src'] );
+		$atts['height']  = absint( $atts['height'] );
+		$atts['width']   = absint( $atts['width'] );
+		$atts['classes'] = esc_attr( $atts['classes'] );
+		# <<<<
+
+		return $atts;
 	}
 
 
@@ -93,9 +121,7 @@ class oxoDynamicImageResize
 	 */
 	public function get_image() 
 	{
-		// Get rid of eventual leading/trailing white spaces around atts 
-		$atts = array_map( 'trim', $this->atts );
-
+		// parse atts
 		extract( shortcode_atts( 
 			 array(
 				 'src'     => ''
@@ -103,16 +129,10 @@ class oxoDynamicImageResize
 				,'height'  => ''
 				,'classes' => ''
 			 )
-			,$atts 
+			,$this->atts 
 		), EXTR_SKIP );
 
-		# >>>> Sanitize
-		$src       = is_string( $src ) ? esc_url( $src ) : absint( $src );
-		$height    = absint( $height );
-		$width     = absint( $width );
 		$hw_string = image_hwstring( $width, $height );
-		$classes   = esc_attr( $classes );
-		# <<<<
 
 		$needs_resize = true;
 
@@ -132,7 +152,7 @@ class oxoDynamicImageResize
 			// And if not: just return the image html string
 			$img_url = substr( $src, 0, strlen( $base_url ) );
 			if ( $img_url !== $base_url )
-				return $this->get_mark_up( $img_url, $hw_string, $classes );
+				return $this->get_markup( $img_url, $hw_string, $classes );
 
 			// Look the file up in the database.
 			$file = str_replace( trailingslashit( $base_url ), '', $src );
@@ -186,7 +206,7 @@ class oxoDynamicImageResize
 		}
 
 		// Generate the markup and return:
-		$html = $this->get_mark_up( $src, $hw_string, $classes );
+		$html = $this->get_markup( $src, $hw_string, $classes );
 
 	 	return $html;
 	}
@@ -231,13 +251,13 @@ class oxoDynamicImageResize
 	 * 
 	 * @return string $html
 	 */
-	public function get_mark_up( $src, $hw_string, $classes )
+	public function get_markup( $src, $hw_string, $classes )
 	{
 		return sprintf( 
 			 '<img src="%s" %s %s />'
 			,$src
 			,$hw_string
-			,$classes
+			,"class='{$classes}'"
 		);
 	}
 } // END Class oxoDynamicImageResize
