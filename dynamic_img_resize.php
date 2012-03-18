@@ -3,7 +3,7 @@
  * Plugin Name: Dynamic Image resize
  * Plugin URI: http://unserkaiser.com/plugins/dynamic-image-resize/
  * Description: Dynamically resizes the image. Enables the [dynamic_image] shortcode, pseudo-TimThumb but creates resized and cropped image files from existing media library entries. Usage: <code>[dynamic_image src="http://example.org/wp-content/uploads/2012/03/image.png" width="100" height="100"]</code> 
- * Version: 0.5
+ * Version: 0.5.1
  * Author: Franz Josef Kaiser <http://unserkaiser.com/contact/>
  * Author URI: http://unserkaiser.com
  * License: MIT
@@ -30,6 +30,13 @@ if ( ! class_exists( 'oxoDynamicImageResize' ) )
  */
 class oxoDynamicImageResize
 {
+	/**
+	 * i18n
+	 * @var string
+	 */
+	const LANG = 'dyn_img_resize';
+
+
 	/**
 	 * Holds the input attributes
 	 * @var array
@@ -163,7 +170,7 @@ class oxoDynamicImageResize
 
 			// If an attachment record was not found:
 			if ( ! $attachment_id )
-				return new WP_Error( 'no_attachment', __( 'Attachment not found.' ), $file );
+				return new WP_Error( 'no_attachment', __( 'Attachment not found.', self :: LANG ), $file );
 		}
 
 		// Look through the attachment meta data for an image that fits our size.

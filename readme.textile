@@ -1,6 +1,6 @@
 h2. Breadcrumbs Trail Nav
 
-version: _v0.5_
+version: _v0.5.1_
 
 "Dynamic Image Resize" is a WordPress (MU-)plugin that offers a shortcode and a template tag to resize images "on the flight" without the need of TimThumb, but with WP core functions.
 
