@@ -1,20 +1,15 @@
 <?php
 /**
  * Plugin Name: Dynamic Image resize
- * Plugin URI: http://unserkaiser.com/plugins/dynamic-image-resize/
- * Description: Dynamically resizes the image. Enables the [dynamic_image] shortcode, pseudo-TimThumb but creates resized and cropped image files from existing media library entries. Usage: <code>[dynamic_image src="http://example.org/wp-content/uploads/2012/03/image.png" width="100" height="100"]</code> 
- * Version: 0.5.2
- * Author: Franz Josef Kaiser <http://unserkaiser.com/contact/>
- * Author URI: http://unserkaiser.com
- * License: MIT
+ * Plugin URI:  http://unserkaiser.com/plugins/dynamic-image-resize/
+ * Description: Dynamically resizes the image. Enables the [dynamic_image] shortcode, pseudo-TimThumb but creates resized and cropped image files from existing media library entries. Usage: <code>[dynamic_image src="http://example.org/wp-content/uploads/2012/03/image.png" width="100" height="100"]</code>. Also offers a template tag. 
+ * Version:     0.6
+ * Author:      Franz Josef Kaiser <http://unserkaiser.com/contact/>
+ * Author URI:  http://unserkaiser.com
+ * License:     MIT
  */
 // Prevent loading this file directly - Busted!
-if ( ! class_exists('WP') ) 
-{
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit;
-}
+! defined( 'ABSPATH' ) AND exit;
 
 
 
@@ -30,13 +25,6 @@ if ( ! class_exists( 'oxoDynamicImageResize' ) )
  */
 class oxoDynamicImageResize
 {
-	/**
-	 * i18n
-	 * @var string
-	 */
-	const LANG = 'dyn_img_resize';
-
-
 	/**
 	 * Holds the input attributes
 	 * @var array
@@ -56,6 +44,9 @@ class oxoDynamicImageResize
 	 */
 	public function __construct( $atts )
 	{
+		if ( ! is_array( $atts ) )
+			return new WP_Error( 'wrong_arg_type', __( 'Arguments need to be an array.', 'dyn_img_resize' ), __FILE__ );
+
 		$this->atts = $this->sanitize( $atts );
 	}
 
@@ -146,11 +137,15 @@ class oxoDynamicImageResize
 
 		$needs_resize = true;
 
+		$error = false;
 		// ID as src
 		if ( ! is_string( $src ) )
 		{
 			$attachment_id = $src;
 			$src = wp_get_attachment_url( $src );
+
+			if ( ! $src )
+				$error = true;
 		}
 		// Path as src
 		else
@@ -170,7 +165,21 @@ class oxoDynamicImageResize
 
 			// If an attachment record was not found:
 			if ( ! $attachment_id )
-				return new WP_Error( 'no_attachment', __( 'Attachment not found.', self :: LANG ), $file );
+				$error = true;
+		}
+
+		// Abort if the attachment wasn't found
+		if ( $error )
+		{
+			# @TODO Error handling with proper message
+			# @TODO Needs a test case
+			# remove $file in favor of $error_msg
+			/*
+			$data = get_plugin_data( __FILE__ );
+			$error_msg = "Plugin: {$data['Name']}: Version {$data['Version']}";
+			*/
+
+			return new WP_Error( 'no_attachment', __( 'Attachment not found.', 'dyn_img_resize' ), $file );
 		}
 
 		// Look through the attachment meta data for an image that fits our size.
@@ -294,7 +303,7 @@ function dynamic_image_resize( $atts )
 }
 
 
-// Add a short code named [dynamic image]
+// Add a short code named [dynamic_image]
 add_shortcode( 'dynamic_image', 'dynamic_image_resize' );
 
 
