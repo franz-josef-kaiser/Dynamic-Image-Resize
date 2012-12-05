@@ -45,7 +45,13 @@ class oxoDynamicImageResize
 	public function __construct( $atts )
 	{
 		if ( ! is_array( $atts ) )
-			return new WP_Error( 'wrong_arg_type', __( 'Arguments need to be an array.', 'dyn_textdomain' ), __FILE__ );
+		{
+			return new WP_Error(
+				 'wrong_arg_type'
+				,__( 'Arguments need to be an array.', 'dyn_textdomain' )
+				,__FILE__
+			);
+		}
 
 		$this->atts = $this->sanitize( $atts );
 	}
@@ -92,7 +98,10 @@ class oxoDynamicImageResize
 	public function sanitize( $atts )
 	{
 		// Get rid of eventual leading/trailing white spaces around atts 
-		$atts = array_map( 'trim', $this->atts );
+		$atts = array_map( 
+			 'trim'
+			,$atts
+		);
 
 		# >>>> Sanitize
 		$atts['src']     = is_string( $atts['src'] ) 
@@ -144,6 +153,7 @@ class oxoDynamicImageResize
 			// returns false on failure
 			$src    = wp_get_attachment_url( $src );
 
+			// If nothing was found:
 			! $src AND $error = true;
 		}
 		// Path as src
@@ -152,17 +162,31 @@ class oxoDynamicImageResize
 			$upload_dir = wp_upload_dir();
 			$base_url   = $upload_dir['baseurl'];
 
-			// Let's see if the image belongs to our uploads directory.
-			// And if not: just return the image html string
-			$img_url = substr( $src, 0, strlen( $base_url ) );
+			// Let's see if the image belongs to our uploads directory...
+			$img_url = substr( 
+				 $src
+				,0
+				,strlen( $base_url )
+			);
+			// ...And if not: just return the image HTML string
 			if ( $img_url !== $base_url )
-				return $this->get_markup( $img_url, $hw_string, $classes );
+			{
+				return $this->get_markup(
+					 $img_url
+					,$hw_string
+					,$classes
+				);
+			}
 
-			// Look the file up in the database.
-			$file   = str_replace( trailingslashit( $base_url ), '', $src );
+			// Look up the file in the database.
+			$file   = str_replace( 
+				 trailingslashit( $base_url )
+				,''
+				,$src
+			);
 			$att_id = $this->get_attachment( $file );
 
-			// If an attachment record was not found:
+			// If no attachment record was found:
 			! $att_id AND $error = true;
 		}
 
@@ -179,7 +203,11 @@ class oxoDynamicImageResize
 			
 			# @TODO In case, we got an ID, but found no image: if ( ! $src ) $file = $att_id;
 
-			return new WP_Error( 'no_attachment', __( 'Attachment not found.', 'dyn_textdomain' ), $file );
+			return new WP_Error( 
+				 'no_attachment'
+				,__( 'Attachment not found.', 'dyn_textdomain' )
+				,$file
+			);
 		}
 
 		// Look through the attachment meta data for an image that fits our size.
@@ -191,17 +219,27 @@ class oxoDynamicImageResize
 				AND $height === $size['height'] 
 				) 
 			{
-				$src = str_replace( basename( $src ), $size['file'], $src );
+				$src = str_replace( 
+					 basename( $src )
+					,$size['file']
+					,$src
+				);
 				$needs_resize = false;
 				break;
 			}
 		}
 
-		// If an image of such size was not found, we can create one.
+		// If an image of such size was not found, ...
 		if ( $needs_resize ) 
 		{
 			$attached_file = get_attached_file( $att_id );
-			$resized       = image_make_intermediate_size( $attached_file, $width, $height, true );
+			// ...we can create one.
+			$resized       = image_make_intermediate_size( 
+				 $attached_file
+				,$width
+				,$height
+				,true
+			);
 
 			if ( ! is_wp_error( $resized ) ) 
 			{	
@@ -220,19 +258,32 @@ class oxoDynamicImageResize
 
 				wp_update_attachment_metadata( $att_id, $meta );
 
-				// Record in backup sizes so everything's cleaned up when attachment is deleted.
-				$backup_sizes = get_post_meta( $att_id, '_wp_attachment_backup_sizes', true );
+				// Record in backup sizes, so everything's 
+				// cleaned up when attachment is deleted.
+				$backup_sizes = get_post_meta( 
+					 $att_id
+					,'_wp_attachment_backup_sizes'
+					,true
+				);
 
 				! is_array( $backup_sizes ) AND $backup_sizes = array();
 
 				$backup_sizes[ $key ] = $resized;
 
-				update_post_meta( $att_id, '_wp_attachment_backup_sizes', $backup_sizes );
+				update_post_meta( 
+					 $att_id
+					,'_wp_attachment_backup_sizes'
+					,$backup_sizes
+				);
 			}
 		}
 
 		// Generate the markup and return:
-		$html = $this->get_markup( $src, $hw_string, $classes );
+		$html = $this->get_markup( 
+			 $src
+			,$hw_string
+			,$classes
+		);
 
 	 	return $html;
 	}
@@ -255,14 +306,13 @@ class oxoDynamicImageResize
 		$result = $wpdb->get_var( $wpdb->prepare( 
 			 "
 				SELECT post_id 
-				FROM %s 
+				FROM {$wpdb->postmeta} 
 				WHERE meta_key = '_wp_attachment_metadata' 
 				  AND meta_value 
 				  LIKE %s 
 				LIMIT 1;
 			 "
-			,$wpdb->postmeta
-			,"%".like_escape( $file )."%" 
+			,"%{$file}%" 
 		) );
 
 		// FALSE if no result
