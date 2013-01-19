@@ -2,15 +2,14 @@
 /**
  * Plugin Name: Dynamic Image resize
  * Plugin URI:  http://unserkaiser.com/plugins/dynamic-image-resize/
- * Description: Dynamically resizes the image. Enables the [dynamic_image] shortcode, pseudo-TimThumb but creates resized and cropped image files from existing media library entries. Usage: <code>[dynamic_image src="http://example.org/wp-content/uploads/2012/03/image.png" width="100" height="100"]</code>. Also offers a template tag. 
+ * Description: Dynamically resizes the image. Enables the [dynamic_image] shortcode, pseudo-TimThumb but creates resized and cropped image files from existing media library entries. Usage: <code>[dynamic_image src="http://example.org/wp-content/uploads/2012/03/image.png" width="100" height="100"]</code>. Also offers a template tag.
  * Version:     0.6.2
  * Author:      Franz Josef Kaiser <http://unserkaiser.com/contact/>
  * Author URI:  http://unserkaiser.com
  * License:     MIT
  */
 // Prevent loading this file directly - Busted!
-! defined( 'ABSPATH' ) AND exit;
-
+defined( 'ABSPATH' ) OR exit;
 
 
 if ( ! class_exists( 'oxoDynamicImageResize' ) )
@@ -20,7 +19,7 @@ if ( ! class_exists( 'oxoDynamicImageResize' ) )
  * @author Franz Josef Kaiser
  * @link http://unserkaiser.com
  * @license MIT
- * 
+ *
  * @since 0.2
  */
 class oxoDynamicImageResize
@@ -35,11 +34,11 @@ class oxoDynamicImageResize
 	/**
 	 * Constructor
 	 * Adds the shortcode
-	 * 
+	 *
 	 * @since 0.2
-	 * 
+	 *
 	 * @param array $atts
-	 * 
+	 *
 	 * @return void
 	 */
 	public function __construct( $atts )
@@ -59,9 +58,9 @@ class oxoDynamicImageResize
 
 	/**
 	 * Returns the image
-	 * 
+	 *
 	 * @since 0.2
-	 * 
+	 *
 	 * @return string $output Image Html Mark-Up or Error (Guest/Subscriber get an empty string)
 	 */
 	public function __toString()
@@ -74,9 +73,9 @@ class oxoDynamicImageResize
 		// No error message for Guests or Subscribers
 		// Assuming that no one has activated caching plugins when debugging
 		// and not set WP_DEBUG to TRUE on a live site
-		if ( 
+		if (
 			! is_user_logged_in()
-			AND ! current_user_can( 'edit_posts' ) 
+			AND ! current_user_can( 'edit_posts' )
 			AND ( ! defined( 'WP_DEBUG' ) OR ! WP_DEBUG )
 		)
 			return '';
@@ -88,24 +87,24 @@ class oxoDynamicImageResize
 
 	/**
 	 * Sanitize attributes
-	 * 
+	 *
 	 * @since 0.5
-	 * 
+	 *
 	 * @param array $atts
-	 * 
+	 *
 	 * @return array $atts
 	 */
 	public function sanitize( $atts )
 	{
-		// Get rid of eventual leading/trailing white spaces around atts 
-		$atts = array_map( 
+		// Get rid of eventual leading/trailing white spaces around atts
+		$atts = array_map(
 			 'trim'
 			,$atts
 		);
 
 		# >>>> Sanitize
-		$atts['src']     = is_string( $atts['src'] ) 
-			? esc_url( $atts['src'] ) 
+		$atts['src']     = is_string( $atts['src'] )
+			? esc_url( $atts['src'] )
 			: absint( $atts['src'] )
 		;
 		$atts['height']  = absint( $atts['height'] );
@@ -119,26 +118,26 @@ class oxoDynamicImageResize
 
 	/**
 	 * Builds the image
-	 * 
+	 *
 	 * @since 0.1
-	 * 
+	 *
  	 * @uses image_make_intermediate_size
-	 * 
+	 *
 	 * @param array $atts
-	 * 
+	 *
 	 * @return mixed string/WP Error $html
 	 */
-	public function get_image() 
+	public function get_image()
 	{
 		// parse defaults/attributes
-		extract( shortcode_atts( 
+		extract( shortcode_atts(
 			 array(
 				 'src'     => ''
 				,'width'   => ''
 				,'height'  => ''
 				,'classes' => ''
 			 )
-			,$this->atts 
+			,$this->atts
 		), EXTR_SKIP );
 
 		$hw_string    = image_hwstring( $width, $height );
@@ -163,7 +162,7 @@ class oxoDynamicImageResize
 			$base_url   = $upload_dir['baseurl'];
 
 			// Let's see if the image belongs to our uploads directory...
-			$img_url = substr( 
+			$img_url = substr(
 				 $src
 				,0
 				,strlen( $base_url )
@@ -179,7 +178,7 @@ class oxoDynamicImageResize
 			}
 
 			// Look up the file in the database.
-			$file   = str_replace( 
+			$file   = str_replace(
 				 trailingslashit( $base_url )
 				,''
 				,$src
@@ -200,10 +199,10 @@ class oxoDynamicImageResize
 			$data = get_plugin_data( __FILE__ );
 			$error_msg = "Plugin: {$data['Name']}: Version {$data['Version']}";
 			*/
-			
+
 			# @TODO In case, we got an ID, but found no image: if ( ! $src ) $file = $att_id;
 
-			return new WP_Error( 
+			return new WP_Error(
 				 'no_attachment'
 				,__( 'Attachment not found.', 'dyn_textdomain' )
 				,$file
@@ -212,14 +211,14 @@ class oxoDynamicImageResize
 
 		// Look through the attachment meta data for an image that fits our size.
 		$meta = wp_get_attachment_metadata( $att_id );
-		foreach( $meta['sizes'] as $key => $size ) 
+		foreach( $meta['sizes'] as $key => $size )
 		{
-			if ( 
-				$width === $size['width'] 
-				AND $height === $size['height'] 
-				) 
+			if (
+				$width === $size['width']
+				AND $height === $size['height']
+				)
 			{
-				$src = str_replace( 
+				$src = str_replace(
 					 basename( $src )
 					,$size['file']
 					,$src
@@ -230,27 +229,27 @@ class oxoDynamicImageResize
 		}
 
 		// If an image of such size was not found, ...
-		if ( $needs_resize ) 
+		if ( $needs_resize )
 		{
 			$attached_file = get_attached_file( $att_id );
 			// ...we can create one.
-			$resized       = image_make_intermediate_size( 
+			$resized       = image_make_intermediate_size(
 				 $attached_file
 				,$width
 				,$height
 				,true
 			);
 
-			if ( ! is_wp_error( $resized ) ) 
-			{	
+			if ( ! is_wp_error( $resized ) )
+			{
 				// Let metadata know about our new size.
-				$key = sprintf( 
+				$key = sprintf(
 					 'resized-%dx%d'
 					,$width
 					,$height
 				);
 				$meta['sizes'][ $key ] = $resized;
-				$src = str_replace( 
+				$src = str_replace(
 					 basename( $src )
 					,$resized['file']
 					,$src
@@ -258,9 +257,9 @@ class oxoDynamicImageResize
 
 				wp_update_attachment_metadata( $att_id, $meta );
 
-				// Record in backup sizes, so everything's 
+				// Record in backup sizes, so everything's
 				// cleaned up when attachment is deleted.
-				$backup_sizes = get_post_meta( 
+				$backup_sizes = get_post_meta(
 					 $att_id
 					,'_wp_attachment_backup_sizes'
 					,true
@@ -270,7 +269,7 @@ class oxoDynamicImageResize
 
 				$backup_sizes[ $key ] = $resized;
 
-				update_post_meta( 
+				update_post_meta(
 					 $att_id
 					,'_wp_attachment_backup_sizes'
 					,$backup_sizes
@@ -279,7 +278,7 @@ class oxoDynamicImageResize
 		}
 
 		// Generate the markup and return:
-		$html = $this->get_markup( 
+		$html = $this->get_markup(
 			 $src
 			,$hw_string
 			,$classes
@@ -291,11 +290,11 @@ class oxoDynamicImageResize
 
 	/**
 	 * Query for the file by URl
-	 * 
+	 *
 	 * @since 0.2
-	 * 
+	 *
 	 * @param string $file
-	 * 
+	 *
 	 * @return mixed string/bool $result Attachment or FALSE if nothing was found (needed for error)
 	 */
 	public function get_attachment( $file )
@@ -303,16 +302,16 @@ class oxoDynamicImageResize
 		global $wpdb;
 
 		$file   = like_escape( $file );
-		$result = $wpdb->get_var( $wpdb->prepare( 
+		$result = $wpdb->get_var( $wpdb->prepare(
 			 "
-				SELECT post_id 
-				FROM {$wpdb->postmeta} 
-				WHERE meta_key = '_wp_attachment_metadata' 
-				  AND meta_value 
-				  LIKE %s 
+				SELECT post_id
+				FROM {$wpdb->postmeta}
+				WHERE meta_key = '_wp_attachment_metadata'
+				  AND meta_value
+				  LIKE %s
 				LIMIT 1;
 			 "
-			,"%{$file}%" 
+			,"%{$file}%"
 		) );
 
 		// FALSE if no result
@@ -325,18 +324,18 @@ class oxoDynamicImageResize
 
 	/**
 	 * Builds the markup
-	 * 
+	 *
 	 * @since 0.2
-	 * 
+	 *
 	 * @param string $src URl to the image
 	 * @param string $hw_string
 	 * @param string $classes
-	 * 
+	 *
 	 * @return string $html
 	 */
 	public function get_markup( $src, $hw_string, $classes )
 	{
-		return sprintf( 
+		return sprintf(
 			 '<img src="%s" %s %s />'
 			,$src
 			,$hw_string
@@ -353,11 +352,11 @@ class oxoDynamicImageResize
 
 /**
  * Retrieve a dynamically/on-the-fly resized image
- * 
+ *
  * @since 0.2
- * 
+ *
  * @param array $atts Attributes: src(URi/ID), width, height, classes
- * 
+ *
  * @return mixed string/html $html Image mark up
  */
 function dynamic_image_resize( $atts )
@@ -368,7 +367,7 @@ function dynamic_image_resize( $atts )
 
 /**
  * Add a short code named [dynamic_image]
- * Use the same attributes as for the class 
+ * Use the same attributes as for the class
  */
 add_shortcode( 'dynamic_image', 'dynamic_image_resize' );
 
