@@ -1,6 +1,6 @@
 h2. Dynamic Image resizing in WordPress
 
-version: _v0.6_
+version: _v0.7_
 
 "Dynamic Image Resize" is a WordPress (MU-)plugin that offers a shortcode and a template tag to resize images "on the flight" without the need of TimThumb, but with WP core functions.
 
@@ -14,27 +14,6 @@ Visit Franz Josef Kaiser at "his homepage":http://unserkaiser.com or get social 
 
 ----------------------------------------------------------------
 
-h3. Shortcode How-to 
+h3. Dedicated Project Page
 
-Place <code>[dynamic_image]</code> in your content. The shortcode has four arguments:
-
-* <code>src</code> Full path to the image in your upload directory or the ID
-* <code>width</code> Integer value
-* <code>height</code> Integer value
-* <code>classes</code> Css classes - separated by a space
-
-h3. Template Tag How-to
-
-<pre>
-// The args need to be an array
-dynamic_image_resize( array(
-	 // The full path to the image in your uploads folder
-	 'src'     => 'http://example.com/wp-content/uploads/2012/03/some_image.png'
-	 // OR: the ID
-	 'src'     => 6
-
-	,'width'   => 60
-	,'height'  => 100
-	,'classes' => 'some classes to align and style the image'
-) );
-</pre>
+"For further info, please visit the project page.":http://franz-josef-kaiser.github.io/Dynamic-Image-Resize/
