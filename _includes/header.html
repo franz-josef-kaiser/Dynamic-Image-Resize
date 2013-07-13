@@ -5,7 +5,7 @@
 		</a>
 	</div>
 	<h1 class="grid__item one-whole palm--one-whole">
-		<a href="/">{% if page.title %}{{ page.title }} {% endif %}{{ site.title }}</a>
+		<a href="/">{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</a>
 	</h1>
-	<h2 class="grid__item one-whole palm--one-whole">{{ site.description }}</h2>
+	<h2 class="grid__item one-whole palm--one-whole">{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}</h2>
 </header>

@@ -1,14 +1,56 @@
 <nav>
 	<ul class="grid">
-		{% assign url = page.url|remove:'index.html' %}
-		{% for link in site.navigation %}
-			{% assign state = '' %}
-			{% if page.url == link.url %}
-				{% assign state = 'active  ' %}
-			{% endif %}
-			<li class="{{ state }}grid__item  one-third  palm--one-whole">
-				<a href="{% if page.url == link.url %}{{ site.baseurl }}{% else %}{{ site.baseurl }}{{ link.url }}{% endif %}" title="{{ link.title }}">{{ link.text }}</a>
+		{% assign url = page.url | remove:'/index.html' %}
+		{% assign home = site.navigation.first %}
+
+		{% if url == empty %}
+			{% for link in site.navigation %}
+				{% assign state = '' %}
+				{% if page.url == link.url %}
+					{% assign state = 'active  ' %}
+				{% endif %}
+
+				{% if home.url != link.url %}
+					<li class="{{ state }}grid__item  one-third  palm--one-whole">
+						<a href="{% if page.url == link.url %}{{ site.baseurl }}{% else %}{{ site.baseurl }}{{ link.url }}{% endif %}" title="{{ link.title }}">{{ link.text }}</a>
+					</li>
+				{% endif %}
+
+				{% if link.subitems != null %}
+				<ul class="grid__item  one-third">
+					{% for item in link.subitems %}
+					<li>
+						<a href="{{ item.url }}" title="{{ item.text }}">{{ item.title }}</a>
+					</li>
+					{% endfor %}
+				</ul>
+				{% endif %}
+			{% endfor %}
+
+		{% else %}
+
+			<li class="grid__item  one-third  palm--one-whole">
+				<a href="{{ home.url }}" title="{{ home.title }}">&laquo; {{ home.text }}</a>
 			</li>
-		{% endfor %}
+
+			{% for link in site.navigation %}
+				{% if link.subitems %}
+					<li class="grid__item  one-third  palm--one-whole">
+						<a href="{{ link.url }}" title="{{ link.title }}">&laquo; {{ link.text }}</a>
+					</li>
+
+					{% assign state = '' %}
+					{% for sub_item in link.subitems %}
+						{% if page.url contains sub_item.url %}
+							{% assign state = 'active ' %}
+						{% endif %}
+						{% assign state_sub = '' %}
+						<li class="{{ state }}grid__item  one-third  palm--one-whole">
+							<a href="/{{ sub_item.url }}" title="{{ sub_item.title }}">{{ sub_item.text }}</a>
+						</li>
+					{% endfor %}
+				{% endif %}
+			{% endfor %}
+		{% endif %}
 	</ul>
 </nav>

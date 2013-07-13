@@ -26,4 +26,14 @@ navigation:
         url: /index.html
       - text: Intro
         title: An introduction to the plugin
-        url: /intro.html
+        url: /intro/intro.html
+        subitems:
+            - text: Upload
+              title: Upload via FTP
+              url: install/install-upload.html
+            - text: Git
+              title: via Git
+              url: install/install-git.html
+      - text: Install
+        title: Introduction to the different way on how to install the plugin
+        url: /install/install.html
