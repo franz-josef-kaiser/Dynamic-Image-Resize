@@ -1,15 +1,5 @@
----
-navigation:
-  - text: Home
-	title: Back to home page
-	url: /index.html
-  - text: Intro
-	title: An introduction to the plugin
-	url: /intro.html
----
-
 <ul class="grid">
-	{% for link in page.navigation %}
+	{% for link in site.navigation %}
 		<li class="{% if page.url == link.url %}current {% endif %}  grid__item one-third">
 			<a href="{{ link.url }}" title="{{ link.title }}">{{ link.text }}</a>
 		</li>

@@ -19,3 +19,11 @@ author:
             url: https://twitter.com/unserkaiser
           - title: Google+
             url: https://plus.google.com/107110219316412982437
+
+navigation:
+  - text: Home
+	title: Back to home page
+	url: /index.html
+  - text: Intro
+	title: An introduction to the plugin
+	url: /intro.html
