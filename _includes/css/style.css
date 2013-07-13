@@ -1,0 +1,52 @@
+body {
+	max-width: 1024px;
+	margin: 18px auto;
+	padding: 0 18px;
+	font: 0.75em/1.5 sans-serif;
+}
+code, pre {
+	font-size: 1.2em;
+}
+ul {
+	list-style-type: none;
+}
+.h1, h2 {
+	line-height: 1;
+	text-shadow: 0 -1px rgba(0, 0, 0, 0.25);
+}
+h1 {
+	font-size: 6em;
+}
+h2 {
+	font-size: 3em;
+}
+h3 {
+	font-size: 2em;
+}
+p, pre, li {
+	font-size: 1.4em;
+}
+code, a, li ul li {
+	font-size: 1em;
+}
+a {
+	text-decoration: none;
+}
+.hero {
+	text-align: center;
+	padding: 54px 0;
+}
+.sub-menu {
+	margin: 0;
+	padding: 0;
+	display: none;
+}
+.nav-item a {
+	font-size: 1em;
+}
+.nav-item:hover .sub-menu {
+	display: inline;
+}
+.nav-item:hover .nav-item-sub {
+	float: left;
+}
