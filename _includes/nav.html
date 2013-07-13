@@ -1,8 +1,14 @@
-<ul class="grid">
-	{% assign url = page.url|remove:'index.html' %}
-	{% for link in site.navigation %}
-		<li class="{% if url == link.url %}active  {% endif %}grid__item  one-third  palm--one-whole">
-			<a href="{% if page.url == link.url %}{{ site.baseurl }}{% else %}{{ site.baseurl }}{{ link.url }}{% endif %}" title="{{ link.title }}">{{ link.text }}</a>
-		</li>
-	{% endfor %}
-</ul>
+<nav>
+	<ul class="grid">
+		{% assign url = page.url|remove:'index.html' %}
+		{% for link in site.navigation %}
+			{% assign state = '' %}
+			{% if page.url == link.url %}
+				{% assign state = 'active  ' %}
+			{% endif %}
+			<li class="{{ state }}grid__item  one-third  palm--one-whole">
+				<a href="{% if page.url == link.url %}{{ site.baseurl }}{% else %}{{ site.baseurl }}{{ link.url }}{% endif %}" title="{{ link.title }}">{{ link.text }}</a>
+			</li>
+		{% endfor %}
+	</ul>
+</nav>
