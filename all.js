@@ -1,1 +1,1 @@
-/* Culminates all scripts into includes to serve them as single file */
+// Culminates all scripts into includes to serve them as single file
