@@ -3,3 +3,4 @@
 /* Culminates all stylesheets into includes to serve them as single file */
 {% include css/grid.css %}
 {% include css/style.css %}
+/* End of includes */
