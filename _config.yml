@@ -1,5 +1,9 @@
 baseurl: /Dynamic-Image-Resize
 
+relative_permalinks: true
+permalink: /:title
+pygments: true
+
 title: Dynamic Image Resize
 description: On demand image resizing
 year: 2013
