@@ -4,6 +4,9 @@
 	</p>
 
 	<p class="grid__item  one-half  palm--one-whole">
+		{% for link in site.author.links %}
+			<a href="{{ link.url }}" title="{{ link.title | strip_html }}">{{ link.title }}</a>
+		{% endfor %}
 	</p>
 </footer>
 <script type="text/javascript" src="{{ site.baseurl }}/all.js"></script>
