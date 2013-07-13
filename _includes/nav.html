@@ -1,6 +1,7 @@
 <ul class="grid">
+	{% assign url = page.url|remove:'index.html' %}
 	{% for link in site.navigation %}
-		<li class="{% if page.url == link.url %}current {% endif %}  grid__item one-third">
+		<li class="{% if url == link.url %}active  {% endif %}  grid__item  one-third">
 			<a href="{{ link.url }}" title="{{ link.title }}">{{ link.text }}</a>
 		</li>
 	{% endfor %}
