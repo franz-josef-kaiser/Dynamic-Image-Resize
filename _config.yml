@@ -4,36 +4,36 @@ relative_permalinks: true
 permalink: /:title
 pygments: true
 
-title: Dynamic Image Resize
-description: On demand image resizing
+title: 'Dynamic Image Resize'
+description: 'On demand image resizing'
 year: 2013
 author:
     name: Franz Josef Kaiser
     email: wecodemore@gmail.com
     links:
-          - title: Blog
+          - title: 'Blog'
             url: http://unserkaiser.com
-          - title: GitHub
+          - title: 'GitHub'
             url: https://github.com/franz-josef-kaiser
-          - title: Twitter
+          - title: 'Twitter'
             url: https://twitter.com/unserkaiser
-          - title: Google+
+          - title: 'Google+'
             url: https://plus.google.com/107110219316412982437
 
 navigation:
-      - text: Home
-        title: Back to home page
+      - text: '&laquo; Home'
+        title: 'Back to home page'
         url: /index.html
-      - text: Intro
-        title: An introduction to the plugin
+      - text: 'Intro'
+        title: 'An introduction to the plugin'
         url: /intro/intro.html
+      - text: 'Install'
+        title: 'Introduction to the different way on how to install the plugin'
+        url: /install/install.html
         subitems:
-            - text: Upload
-              title: Upload via FTP
+            - text: 'Upload'
+              title: 'Upload via FTP'
               url: install/install-upload.html
-            - text: Git
+            - text: 'Git'
               title: via Git
               url: install/install-git.html
-      - text: Install
-        title: Introduction to the different way on how to install the plugin
-        url: /install/install.html
