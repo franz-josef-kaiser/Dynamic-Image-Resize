@@ -21,45 +21,45 @@ description: Shortcode or template tag?
 	<h3 id="howto-templatetag">Template Tag</h3>
 	<p>The class uses the <code>__toString()</code> method. This method - as most magical PHP methods - only trigger under a certain condition. In this case, when you <code>echo</code> the output.</p>
 	<p>Inside the loop:</p>
-	{% highlight php %}
-	echo dynamic_image_resize( array(
-		'src'     => array_shift( wp_get_attachment_image_src(
-			get_post_thumbnail_id( get_the_ID() ),
-			"Full"
-		) ),
-		'width'   => 60,
-		'height'  => 100,
-		'classes' => 'thumb',
-	) );
-	{% endhighlight %}
+{% highlight php linenos %}
+echo dynamic_image_resize( array(
+	'src'     => array_shift( wp_get_attachment_image_src(
+		get_post_thumbnail_id( get_the_ID() ),
+		"Full"
+	) ),
+	'width'   => 60,
+	'height'  => 100,
+	'classes' => 'thumb',
+) );
+{% endhighlight %}
 </div>
 
 <div class="grid__item  one-half  palm--one-whole">
 	<p>Outside the loop with a path to an attachment:</p>
-	{% highlight php %}
-	// The args need to be an array
-	echo dynamic_image_resize( array(
-		// The full path to the image in your uploads folder
-		'src'     => 'http://example.com/wp-content/uploads/2012/03/some_image.png',
+{% highlight php linenos %}
+// The args need to be an array
+echo dynamic_image_resize( array(
+	// The full path to the image in your uploads folder
+	'src'     => 'http://example.com/wp-content/uploads/2012/03/some_image.png',
 
-		'width'   => 60,
-		'height'  => 100,
-		'classes' => 'some classes to align and style the image',
-	) );
-	{% endhighlight %}
+	'width'   => 60,
+	'height'  => 100,
+	'classes' => 'some classes to align and style the image',
+) );
+{% endhighlight %}
 </div>
 
 <div class="grid__item  one-half  palm--one-whole">
 	<p>Outside the loop with an attachment ID:</p>
-	{% highlight php %}
-	// The args need to be an array
-	echo dynamic_image_resize( array(
-		// the ID
-		'src'     => 6,
+{% highlight php linenos %}
+// The args need to be an array
+echo dynamic_image_resize( array(
+	// the ID
+	'src'     => 6,
 
-		'width'   => 60,
-		'height'  => 100,
-		'classes' => 'some classes to align and style the image',
-	) );
-	{% endhighlight %}
+	'width'   => 60,
+	'height'  => 100,
+	'classes' => 'some classes to align and style the image',
+) );
+{% endhighlight %}
 </div>

@@ -3,8 +3,9 @@ layout: layout
 title: In case you need to uninstall&hellip;
 ---
 
-<p>&hellip;be aware that a kitten will die if you do so.</p>
-<pre>
+<div class="grid__item  one-whole palm--one-whole">
+	<p>&hellip;be aware that a kitten will die if you do so.</p>
+{% highlight console %}
 # Remove the submodule
 git rm --cached folder-it-was-cloned-into
 # We also need to remove the entry from our config file...
@@ -13,4 +14,5 @@ git config -f .git/config --remove-section folder-it-was-cloned-into
 git config -f .gitmodules --remove-section folder-it-was-cloned-into
 # ...and the modules folder
 rm -rf .git/modules/folder-it-was-cloned-into
-</pre>
+{% endhighlight %}
+</div>
