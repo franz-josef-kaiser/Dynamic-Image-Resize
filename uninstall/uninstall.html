@@ -1,0 +1,18 @@
+---
+layout: layout
+title: Uninstall
+---
+
+<div class="grid__item  one-half  palm--one-whole">
+	<p>In case you need to uninstall&hellip; be aware that a kitten will die if you do so.</p>
+	<pre>
+# Remove the submodule
+git rm --cached folder-it-was-cloned-into
+# We also need to remove the entry from our config file...
+git config -f .git/config --remove-section folder-it-was-cloned-into
+# ...as well as from the .gitmodules file
+git config -f .gitmodules --remove-section folder-it-was-cloned-into
+# ...and the modules folder
+rm -rf .git/modules/folder-it-was-cloned-into
+	</pre>
+</div>

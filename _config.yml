@@ -31,9 +31,24 @@ navigation:
         title: 'Introduction to the different way on how to install the plugin'
         url: /install/install.html
         subitems:
-            - text: 'Upload'
+            - text: 'FTP'
               title: 'Upload via FTP'
               url: install/install-upload.html
+            - text: 'ZIP'
+              title: 'Upload Ziball to the the admin UI'
+              url: install/install-zip.html
             - text: 'Git'
-              title: via Git
+              title: 'The power of version control: Git'
               url: install/install-git.html
+            - text: 'Composer'
+              title: 'The magic of composing projects'
+              url: install/install-composer.html
+      - text: 'Uninstall'
+        title: 'If you really need to'
+        url: /uninstall/uninstall.html
+      - text: 'License'
+        title: 'Want to know what you are allowed to do?'
+        url: /license/license.html
+      - text: 'How To'
+        title: 'Use the software the right way'
+        url: /howto/howto.html

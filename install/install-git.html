@@ -3,4 +3,21 @@ layout: layout
 title: Install using Git
 ---
 
-<p>Install using git</p>
+<div class="grid__item  one-half  palm--one-whole">
+	<p>Open Git Bash or your Command line tool of choice.</p>
+	<pre>
+$ git clone --recursive git@github.com:franz-josef-kaiser/Dynamic-Image-Resize.git folder-to-clone-into
+	</pre>
+</div>
+
+<div class="grid__item  one-half  palm--one-whole">
+	<h3 id="install-git-submodule">Git Submodule</h3>
+	<p>Please keep in mind that you need to check back for version updates on a regular base.</p>
+	<pre>
+$ git submodule add git@github.com:franz-josef-kaiser/Dynamic-Image-Resize.git folder-to-clone-into
+# List our submodules
+$ git submodule -v
+# List our submodules from the gitmodules file
+$ cat .gitmodules
+	</pre>
+</div>

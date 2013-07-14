@@ -1,6 +1,53 @@
 ---
 layout: layout
-title: Install general
+title: Install overview
 ---
 
-<p>Install General</p>
+<div class="grid__item  one-half palm--one-half">
+	<p>If the plugin is used as standalone plugin, it can be dropped as plain file, or inside a folder into your plugins or MU-plugins folder. Then it can be activated from the admin UI "Plugin" list.</p>
+	<p>When you're running a WordPress Multisite/Network installation, it's best to simply use a muplugin, so you don't have to care about activating it on each network site. Simply add the following to your <code>wp-config.php</code> file:</p>
+	<pre>
+define( 'WPMU_PLUGIN_DIR', WP_CONTENT_DIR.'/mu-plugins' );
+define( 'WPMU_PLUGIN_URL', WP_CONTENT_URL.'/mu-plugins' );
+	</pre>
+</div>
+
+<div class="grid__item  one-half palm--one-half">
+	<p>The plugin will run with custom Plugin URLs/domains, custom plugin and mu-plugin folder locations.</p>
+	<pre>
+https://example.com
+├── wordpress-root
+│   ├── wp-admin
+│   │   └── ...
+│   ├── wp-content
+│   │   ├── plugins
+│   │   │   ├── wcm-dir
+│   │   │   │   └── dynamic-image-resize.php
+│   │   │   ├── ...
+│   │   │   └── dynamic-image-resize.php
+│   │   ├── mu-plugins
+│   │   │   ├── ...
+│   │   │   └── dynamic-image-resize.php
+│   │   └── themes
+│   ├── wp-includes
+│   │   └── ...
+│   │   ...
+│   └── wp-config.php
+├── custom-plugins-dir
+│   ├── wcm-dir
+│   │   └── dynamic-image-resize.php
+│   └── dynamic-image-resize.php
+└── custom-mu-plugins-dir
+└── dynamic-image-resize.php
+
+https://plugins.dev
+└── plugins
+├── wcm-dir
+│   └── dynamic-image-resize.php
+└── dynamic-image-resize.php
+
+https://mu-plugins.dev
+└── plugins
+└── dynamic-image-resize.php
+	</pre>
+</div>

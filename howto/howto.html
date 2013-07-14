@@ -1,0 +1,54 @@
+---
+layout: layout
+title: How to use it properly
+---
+
+<p>There are two possible use cases: Either place the shortcode inside your post content, or use a template tag.</p>
+
+<h3 id="howto-shortcode">Shortcode</h3>
+<p>Place <code>[dynamic_image]</code> in your content. The shortcode has four arguments:</p>
+<ul>
+	<li><code>src</code> Full path to the image in your upload directory or the ID</li>
+	<li><code>width</code> Integer value</li>
+	<li><code>height</code> Integer value</li>
+	<li><code>classes</code> Css classes – separated by a <code> </code>-whitespace</li>
+</ul>
+
+<h3 id="howto-templatetag">Template Tag</h3>
+<p>The class uses the <code>__toString()</code> method. This method - as most magical PHP methods - only trigger under a certain condition. In this case, when you <code>echo</code> the output.</p>
+<p>Inside the loop:</p>
+<pre>
+echo dynamic_image_resize( array(
+	'src'     => array_shift( wp_get_attachment_image_src(
+		get_post_thumbnail_id( get_the_ID() ),
+		"Full"
+	) ),
+	'width'   => 60,
+	'height'  => 100,
+	'classes' => 'thumb',
+) );
+</pre>
+<p>Outside the loop with a path to an attachment:</p>
+<pre>
+// The args need to be an array
+echo dynamic_image_resize( array(
+	// The full path to the image in your uploads folder
+	'src'     => 'http://example.com/wp-content/uploads/2012/03/some_image.png',
+
+	'width'   => 60,
+	'height'  => 100,
+	'classes' => 'some classes to align and style the image',
+) );
+</pre>
+<p>Outside the loop with an attachment ID:</p>
+<pre>
+// The args need to be an array
+echo dynamic_image_resize( array(
+	// the ID
+	'src'     => 6,
+
+	'width'   => 60,
+	'height'  => 100,
+	'classes' => 'some classes to align and style the image',
+) );
+</pre>
