@@ -13,41 +13,41 @@ define( 'WPMU_PLUGIN_URL', WP_CONTENT_URL.'/mu-plugins' );
 </div>
 
 <div class="grid__item  one-half palm--one-half">
-	<p>The plugin will run with custom Plugin URLs/domains, custom plugin and mu-plugin folder locations.</p>
-	<pre>
+	<p>The plugin will run with custom Plugin URLs/domains, custom plugin and mu-plugin folder locations. See the following examples.</p>
+{% highlight %}
 https://example.com
-├── wordpress-root
-│   ├── wp-admin
-│   │   └── ...
-│   ├── wp-content
-│   │   ├── plugins
-│   │   │   ├── wcm-dir
+├── ▬ wordpress-root
+│   ├── ▬ wp-admin
+│   │   └── …
+│   ├── ▬ wp-content
+│   │   ├── ▬ plugins
+│   │   │   ├── ▬ Dynamic-Image-Resize
 │   │   │   │   └── dynamic-image-resize.php
-│   │   │   ├── ...
+│   │   │   ├── …
 │   │   │   └── dynamic-image-resize.php
-│   │   ├── mu-plugins
-│   │   │   ├── ...
+│   │   ├── ▬ mu-plugins
+│   │   │   ├── …
 │   │   │   └── dynamic-image-resize.php
-│   │   └── themes
-│   ├── wp-includes
-│   │   └── ...
-│   │   ...
+│   │   └── ▬ themes
+│   ├── ▬ wp-includes
+│   │   └── …
+│   │   …
 │   └── wp-config.php
-├── custom-plugins-dir
-│   ├── wcm-dir
+├── ▬ custom-plugins-dir
+│   ├── ▬ Dynamic-Image-Resize
 │   │   └── dynamic-image-resize.php
 │   └── dynamic-image-resize.php
-└── custom-mu-plugins-dir
-└── dynamic-image-resize.php
+└── ▬ custom-mu-plugins-dir
+    └── dynamic-image-resize.php
 
 https://plugins.dev
-└── plugins
-├── wcm-dir
+├── …
+├── ▬ Dynamic-Image-Resize
 │   └── dynamic-image-resize.php
 └── dynamic-image-resize.php
 
 https://mu-plugins.dev
-└── plugins
+├── …
 └── dynamic-image-resize.php
-	</pre>
+{% endhighlight %}
 </div>
