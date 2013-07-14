@@ -24,6 +24,9 @@ navigation:
       - text: '&laquo; Home'
         title: 'Back to home page'
         url: /index.html
+      - text: 'About'
+        title: 'About the author'
+        url: /about/about.html
       - text: 'Intro'
         title: 'An introduction to the plugin'
         url: /intro/intro.html
