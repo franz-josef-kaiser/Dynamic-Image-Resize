@@ -1,40 +1,44 @@
+html {
+	font: 0.75em/1.5 sans-serif;
+	background-color: #f9f9f9;
+	color: #444;
+}
 body {
-	max-width: 1024px;
+	max-width: 1200px;
 	margin: 18px auto;
 	padding: 0 18px;
-	font: 0.75em/1.5 sans-serif;
-}
-code, pre {
-	font-size: 1.2em;
-}
-ul {
-	list-style-type: none;
-}
-.h1, h2 {
-	line-height: 1;
-	text-shadow: 0 -1px rgba(0, 0, 0, 0.25);
-}
-h1 {
-	font-size: 6em;
-}
-h2 {
-	font-size: 3em;
-}
-h3 {
-	font-size: 2em;
-}
-p, pre, li {
-	font-size: 1.4em;
-}
-code, a, li ul li {
-	font-size: 1em;
-}
-a {
-	text-decoration: none;
 }
 .hero {
 	text-align: center;
 	padding: 54px 0;
+}
+.hero p {
+	font-size: 1.333em;
+	margin: 0;
+}
+h1 {
+	font-size: 6em;
+	text-align: center;
+	margin: 0;
+	line-height: 1;
+	text-shadow: 0 -1px rgba(0, 0, 0, 0.25);
+}
+@media screen and (max-width: 700px) {
+	h1 {
+		font-size: 3em;
+	}
+}
+p {
+	margin: 0;
+	margin-bottom: 18px;
+}
+a {
+	color: #f43059;
+	font-weight: bold;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
 }
 .sub-menu {
 	margin: 0;
@@ -43,10 +47,7 @@ a {
 }
 .nav-item a {
 	font-size: 1em;
-}
-.nav-item:hover .sub-menu {
-	display: inline;
-}
-.nav-item:hover .nav-item-sub {
-	float: left;
+	background-color: #f43059;
+	color: #fff;
+	padding: 18px;
 }
