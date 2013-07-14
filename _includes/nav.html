@@ -11,7 +11,7 @@
 				{% endif %}
 
 				{% if home.url != link.url %}
-					<li class="{{ state }}grid__item  one-third  palm--one-whole">
+					<li class="nav-item  {{ state }}grid__item  one-third  palm--one-whole">
 						<a href="{% if page.url == link.url %}{{ site.baseurl }}{% else %}{{ site.baseurl }}{{ link.url }}{% endif %}" title="{{ link.title }}">{{ link.text }}</a>
 					</li>
 				{% endif %}
@@ -19,14 +19,14 @@
 
 		{% else %}
 
-			<li class="grid__item  one-third  palm--one-whole">
+			<li class="nav-item  grid__item  one-third  palm--one-whole">
 				<a href="{{ site.baseurl }}" title="{{ home.title }}">{{ home.text }}</a>
 			</li>
 
 			{% for link in site.navigation %}
 				{% if page.url contains link.url %}
 					<!-- @TODO Nur wenn man auf einer Subseite ist. -->
-					<li class="grid__item  one-third  palm--one-whole">
+					<li class="nav-item  grid__item  one-third  palm--one-whole">
 						<a href="{{ link.url }}" title="{{ link.title }}">&laquo; {{ link.text }}</a>
 					</li>
 
@@ -43,7 +43,7 @@
 									{% endif %}
 								{% endif %}
 							{% endfor %}
-							<li class="{{ state }}grid__item  one-third  palm--one-whole">
+							<li class="nav-item  nav-item-sub {{ state }}grid__item  one-third  palm--one-whole">
 								<a href="{{ sub_item.url }}" title="{{ sub_item.title }}">{{ sub_item.text }}</a>
 							</li>
 						{% endfor %}

@@ -40,14 +40,16 @@ a {
 a:hover {
 	text-decoration: underline;
 }
-.sub-menu {
-	margin: 0;
-	padding: 0;
-	display: none;
-}
 .nav-item a {
 	font-size: 1em;
 	background-color: #f43059;
 	color: #fff;
 	padding: 18px;
+}
+.nav-item-sub {
+
+}
+.nav-item.active,
+.nav-item-sub.active {
+
 }
