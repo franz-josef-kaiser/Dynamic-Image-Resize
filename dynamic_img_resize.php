@@ -89,14 +89,14 @@ class oxoDynamicImageResize
 		);
 
 		# >>>> Sanitize
-		$atts['src']     	= is_string( $atts['src'] )
+		$atts['src']		= is_string( $atts['src'] )
 			? esc_url( $atts['src'] )
 			: absint( $atts['src'] )
 		;
-		$atts['height']  	= absint( $atts['height'] );
-		$atts['width']   	= absint( $atts['width'] );
-		$atts['classes'] 	= esc_attr( $atts['classes'] );		
-		$atts['hw_markup'] 	= $atts['hw_markup'] == '0'
+		$atts['height']		= absint( $atts['height'] );
+		$atts['width']		= absint( $atts['width'] );
+		$atts['classes']	= esc_attr( $atts['classes'] );		
+		$atts['hw_markup']	= $atts['hw_markup'] == '0'
 			? false
 			: true
 		;
