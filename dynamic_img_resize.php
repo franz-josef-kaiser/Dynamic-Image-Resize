@@ -89,14 +89,14 @@ class oxoDynamicImageResize
 		);
 
 		# >>>> Sanitize
-		$atts['src']		= is_string( $atts['src'] )
+		$atts['src']        = is_string( $atts['src'] )
 			? esc_url( $atts['src'] )
 			: absint( $atts['src'] )
 		;
-		$atts['height']		= absint( $atts['height'] );
-		$atts['width']		= absint( $atts['width'] );
-		$atts['classes']	= esc_attr( $atts['classes'] );		
-		$atts['hw_markup']	= $atts['hw_markup'] == '0'
+		$atts['height']     = absint( $atts['height'] );
+		$atts['width']      = absint( $atts['width'] );
+		$atts['classes']    = esc_attr( $atts['classes'] );
+		$atts['hw_markup']  = $atts['hw_markup'] === '' OR $atts['hw_markup'] === 'false'
 			? false
 			: true
 		;
@@ -316,20 +316,12 @@ class oxoDynamicImageResize
 	 */
 	public function get_markup( $src, $hw_string, $classes, $hw_markup )
 	{
-		if($hw_markup) {
-			return sprintf(
-				'<img src="%s" %s %s />',
-				$src,
-				$hw_string,
-				"class='{$classes}'"
-			);
-		} else {
-			return sprintf(
-				'<img src="%s" %s/>',
-				$src,
-				"class='{$classes}'"
-			);
-		}
+		return sprintf(
+			'<img src="%s" %s %s />',
+			$src,
+			'class="'.$classes.'"',
+			$hw_markup ? $hw_string : ''
+		);
 	}
 } // END Class oxoDynamicImageResize
 
