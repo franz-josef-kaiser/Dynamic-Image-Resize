@@ -123,6 +123,20 @@ class oxoDynamicImageResize
 		return $atts;
 	}
 
+	public function parseAttributes( $atts )
+	{
+		return shortcode_atts(
+			array(
+				'src'     => '',
+				'width'   => '',
+				'height'  => '',
+				'classes' => '',
+			),
+			$atts,
+			'dynamic_image'
+		);
+	}
+
 	/**
 	 * Builds the image
 	 * @since    0.1
@@ -132,17 +146,10 @@ class oxoDynamicImageResize
 	 */
 	public function getImage()
 	{
+		$atts = $this->getAttributes();
+		$atts = $this->parseAttributes( $atts );
 		// parse defaults/attributes
-		extract( shortcode_atts(
-			array(
-				'src'     => '',
-				'width'   => '',
-				'height'  => '',
-				'classes' => '',
-			),
-			$this->atts,
-			'dynamic_image'
-		), EXTR_SKIP );
+		extract( $atts, EXTR_SKIP );
 
 		$hw_string = image_hwstring( $width, $height );
 		$needs_resize = true;
