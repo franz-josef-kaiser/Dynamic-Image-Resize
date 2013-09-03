@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) OR exit;
  * Plugin Name: Dynamic Image resize
  * Plugin URI:  http://unserkaiser.com/plugins/dynamic-image-resize/
  * Description: Dynamically resizes images. Enables the <code>[dynamic_image]</code> shortcode, pseudo-TimThumb but creates resized and cropped image files from existing media library entries. Usage: <code>[dynamic_image src="http://example.org/wp-content/uploads/2012/03/image.png" width="100" height="100"]</code>. Also offers a template tag.
- * Version:     1.5
+ * Version:     1.6
  * Author:      Franz Josef Kaiser <http://unserkaiser.com/contact/>
  * Author URI:  http://unserkaiser.com
  * License:     MIT
@@ -33,6 +33,24 @@ class oxoDynamicImageResize
 	 * @var string
 	 */
 	private $hw_string = '';
+
+	/**
+	 * Base URL to prefix for all image files.
+	 * @var string
+	 */
+	private $baseUrl = '';
+
+	/**
+	 * The currently processed Attachments ID.
+	 * @var int|null
+	 */
+	private $att_id = null;
+
+	/**
+	 * The currently processed Attachment Meta Data Array.
+	 * @var array
+	 */
+	private $att_meta = array();
 
 	/**
 	 * Constructor
@@ -219,17 +237,15 @@ class oxoDynamicImageResize
 		// Path as src
 		else
 		{
-			$upload_dir = wp_upload_dir();
-			$base_url   = $upload_dir['baseurl'];
 			// Let's see if the image belongs to our uploads directory…
 			$img_url = substr(
 				$atts['src'],
 				0,
-				strlen( $base_url )
+				strlen( $this->getBaseUrl() )
 			);
 
 			// …And if not: just return the image HTML string
-			if ( $img_url !== $base_url )
+			if ( $img_url !== $this->getBaseUrl() )
 			{
 				return $this->getMarkUp(
 					$img_url,
@@ -240,7 +256,7 @@ class oxoDynamicImageResize
 
 			// Prepare file name for DB search.
 			$file = str_replace(
-				trailingslashit( $base_url ),
+				trailingslashit( $this->getBaseUrl() ),
 				'',
 				$atts['src']
 			);
@@ -262,6 +278,7 @@ class oxoDynamicImageResize
 
 		// Look through the attachment meta data for an image that fits our size.
 		$meta = wp_get_attachment_metadata( $att_id );
+		$this->setAttachmentMeta( $meta );
 		foreach( $meta['sizes'] as $size )
 		{
 			if (
@@ -355,6 +372,63 @@ class oxoDynamicImageResize
 		);
 
 	 	return $html;
+	}
+
+	/**
+	 * Setter for the base URL for the Attachment/Image directory.
+	 */
+	public function setBaseUrl()
+	{
+		$uploaddir = wp_upload_dir();
+		$this->baseUrl = $uploaddir['baseurl'];
+	}
+
+	/**
+	 * Get the Base URL
+	 * @return string
+	 */
+	public function getBaseUrl()
+	{
+		return $this->baseUrl;
+	}
+
+	/**
+	 * Sets the currently processed Attachment ID.
+	 * @param int $id
+	 */
+	public function setAttachmentID( $id )
+	{
+		$this->att_id = $id;
+	}
+
+	/**
+	 * Gets the currently processed Attachment ID.
+	 * @return int|null
+	 */
+	public function getAttachmentID()
+	{
+		return $this->att_id;
+	}
+
+	/**
+	 * Sets the currently processed Attachment Meta Data.
+	 * Allows extending classes to retrieve the meta data
+	 * to display captions, credits, generate MarkUp for
+	 * responsive stuff, etc. Sky is the limit.
+	 * @param array $data
+	 */
+	public function setAttachmentMeta( $data )
+	{
+		$this->att_meta = $data;
+	}
+
+	/**
+	 * Gets the currently processed Attachment Meta Data Array.
+	 * @return array
+	 */
+	public function getAttachmentMeta()
+	{
+		return $this->att_meta;
 	}
 
 	/**
