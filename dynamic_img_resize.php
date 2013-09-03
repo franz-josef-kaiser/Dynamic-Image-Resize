@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) OR exit;
  * Plugin Name: Dynamic Image resize
  * Plugin URI:  http://unserkaiser.com/plugins/dynamic-image-resize/
  * Description: Dynamically resizes images. Enables the <code>[dynamic_image]</code> shortcode, pseudo-TimThumb but creates resized and cropped image files from existing media library entries. Usage: <code>[dynamic_image src="http://example.org/wp-content/uploads/2012/03/image.png" width="100" height="100"]</code>. Also offers a template tag.
- * Version:     0.9.1
+ * Version:     0.9.2
  * Author:      Franz Josef Kaiser <http://unserkaiser.com/contact/>
  * Author URI:  http://unserkaiser.com
  * License:     MIT
@@ -49,7 +49,7 @@ class oxoDynamicImageResize
 		{
 			return new WP_Error(
 				'wrong_arg_type',
-				__( 'Arguments need to be an array.', 'dyn_textdomain' ),
+				__( 'Args need to be an array for the dynamic_image_resize template tag.', 'dyn_textdomain' ),
 				__FILE__
 			);
 		}
