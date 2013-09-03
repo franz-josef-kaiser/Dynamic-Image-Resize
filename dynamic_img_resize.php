@@ -189,21 +189,24 @@ class oxoDynamicImageResize
 		{
 			$upload_dir = wp_upload_dir();
 			$base_url   = $upload_dir['baseurl'];
+var_dump( $upload_dir );
 			// Let's see if the image belongs to our uploads directory...
 			$img_url = substr(
 				$atts['src'],
 				0,
 				strlen( $base_url )
 			);
+var_dump( $atts['src'], $img_url, $img_url !== $base_url );
 			// ...And if not: just return the image HTML string
-			if ( $img_url !== $base_url )
+# TEMPORÄR auskommentiert
+			/*if ( $img_url !== $base_url )
 			{
 				return $this->getMarkUp(
 					$img_url,
 					$hw_string,
 					$atts['classes']
 				);
-			}
+			}*/
 
 			// Look up the file in the database.
 			$file = str_replace(
@@ -216,7 +219,7 @@ class oxoDynamicImageResize
 			// If no attachment record was found:
 			! $att_id AND $error = true;
 		}
-
+var_dump( $att_id );
 		// Abort if the attachment wasn't found
 		if ( $error )
 		{
@@ -319,14 +322,31 @@ class oxoDynamicImageResize
 	/**
 	 * Query for the file by URl
 	 * @since 0.2
-	 * @param string $file
+	 * @param  string $url
 	 * @return mixed string/bool $result Attachment or FALSE if nothing was found (needed for error)
 	 */
-	public function getAttachment( $file )
+	public function getAttachment( $url )
 	{
 		global $wpdb;
 
-		$file   = like_escape( $file );
+		$result = $wpdb->get_var( $this->getAttachmentSQL( $url ) );
+
+		// FALSE if no result
+		if ( empty( $result ) )
+			return false;
+
+		return $result;
+	}
+
+	/**
+	 * Retrieves the SQL statement that is used to retrieve a single Attachment
+	 * @param  string $url
+	 * @return string $sql
+	 */
+	public function getAttachmentSQL( $url )
+	{
+		global $wpdb;
+
 		$sql = <<<SQL
 SELECT post_id
 	FROM {$wpdb->postmeta}
@@ -336,16 +356,10 @@ SELECT post_id
 	LIMIT 1
 SQL;
 
-		$result = $wpdb->get_var( $wpdb->prepare(
+		return $wpdb->prepare(
 			$sql,
-			"%".like_escape( $file )."%"
-		) );
-
-		// FALSE if no result
-		if ( empty( $result ) )
-			return false;
-
-		return $result;
+			"%".like_escape( $url )."%"
+		);
 	}
 
 	/**
