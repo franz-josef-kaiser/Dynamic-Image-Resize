@@ -181,7 +181,7 @@ class oxoDynamicImageResize
 			// ...And if not: just return the image HTML string
 			if ( $img_url !== $base_url )
 			{
-				return $this->getMarkup(
+				return $this->getMarkUp(
 					$img_url,
 					$hw_string,
 					$atts['classes']
@@ -290,7 +290,7 @@ class oxoDynamicImageResize
 		}
 
 		// Generate the markup and return:
-		$html = $this->getMarkup(
+		$html = $this->getMarkUp(
 			$atts['src'],
 			$hw_string,
 			$atts['classes']
@@ -337,7 +337,7 @@ class oxoDynamicImageResize
 	 * @param string $classes
 	 * @return string $html
 	 */
-	public function getMarkup( $src, $hw_string, $classes )
+	public function getMarkUp( $src, $hw_string, $classes )
 	{
 		return sprintf(
 			'<img src="%s" %s %s />',
