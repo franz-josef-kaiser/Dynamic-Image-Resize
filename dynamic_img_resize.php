@@ -178,7 +178,7 @@ class oxoDynamicImageResize
 		);
 		$hw_string = $this->getHeightWidthString();
 		! $atts['hwmarkup'] AND $hw_string = '';
-var_dump( $atts );
+
 		$needs_resize = true;
 		$file = 'No image';
 		$error = false;
