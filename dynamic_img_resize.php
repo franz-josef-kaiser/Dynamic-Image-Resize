@@ -189,7 +189,7 @@ class oxoDynamicImageResize
 			}
 
 			// Look up the file in the database.
-			$file   = str_replace(
+			$file = str_replace(
 				trailingslashit( $base_url ),
 				'',
 				$atts['src']
@@ -343,7 +343,7 @@ class oxoDynamicImageResize
 			'<img src="%s" %s %s />',
 			$src,
 			$hw_string,
-			"class='{$classes}'"
+			! empty( $classes ) ? "class='{$classes}'" : ''
 		);
 	}
 } // END Class oxoDynamicImageResize
