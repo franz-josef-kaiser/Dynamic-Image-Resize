@@ -147,25 +147,24 @@ class oxoDynamicImageResize
 	{
 		$atts = $this->getAttributes();
 		$atts = $this->parseAttributes( $atts );
-var_dump( $atts );
 		$atts = $this->sanitizeAttributes( $atts );
-var_dump( $atts );
-		// parse defaults/attributes
-		extract( $atts, EXTR_SKIP );
-var_dump( $src, $width, $height, $classes );
-		$hw_string = image_hwstring( $width, $height );
+
+		$hw_string = image_hwstring(
+			$atts['width'],
+			$atts['height']
+		);
 		$needs_resize = true;
 		$file = 'No image';
 		$error = false;
 		// ID as src
-		if ( ! is_string( $src ) )
+		if ( ! is_string( $atts['src'] ) )
 		{
-			$att_id = $src;
+			$att_id = $atts['src'];
 			// returns false on failure
-			$src = wp_get_attachment_url( $src );
+			$atts['src'] = wp_get_attachment_url( $atts['src'] );
 
 			// If nothing was found:
-			! $src AND $error = true;
+			! $atts['src'] AND $error = true;
 		}
 		// Path as src
 		else
@@ -175,7 +174,7 @@ var_dump( $src, $width, $height, $classes );
 
 			// Let's see if the image belongs to our uploads directory...
 			$img_url = substr(
-				$src,
+				$atts['src'],
 				0,
 				strlen( $base_url )
 			);
@@ -185,7 +184,7 @@ var_dump( $src, $width, $height, $classes );
 				return $this->get_markup(
 					$img_url,
 					$hw_string,
-					$classes
+					$atts['classes']
 				);
 			}
 
@@ -193,7 +192,7 @@ var_dump( $src, $width, $height, $classes );
 			$file   = str_replace(
 				trailingslashit( $base_url ),
 				'',
-				$src
+				$atts['src']
 			);
 			$att_id = $this->get_attachment( $file );
 
@@ -212,7 +211,8 @@ var_dump( $src, $width, $height, $classes );
 			$error_msg = "Plugin: {$data['Name']}: Version {$data['Version']}";
 			*/
 
-			# @TODO In case, we got an ID, but found no image: if ( ! $src ) $file = $att_id;
+			# @TODO In case, we got an ID, but found no image:
+			# if ( ! $atts['src'] ) $file = $att_id;
 
 			return new WP_Error(
 				'no_attachment',
@@ -226,14 +226,14 @@ var_dump( $src, $width, $height, $classes );
 		foreach( $meta['sizes'] as $key => $size )
 		{
 			if (
-				$width === $size['width']
-				AND $height === $size['height']
+				$atts['width'] === $size['width']
+				AND $atts['height'] === $size['height']
 				)
 			{
-				$src = str_replace(
-					basename( $src ),
+				$atts['src'] = str_replace(
+					basename( $atts['src'] ),
 					$size['file'],
-					$src
+					$atts['src']
 				);
 				$needs_resize = false;
 				break;
@@ -247,8 +247,8 @@ var_dump( $src, $width, $height, $classes );
 			// ...we can create one.
 			$resized = image_make_intermediate_size(
 				$attached_file,
-				$width,
-				$height,
+				$atts['width'],
+				$atts['height'],
 				true
 			);
 
@@ -257,14 +257,14 @@ var_dump( $src, $width, $height, $classes );
 				// Let metadata know about our new size.
 				$key = sprintf(
 					'resized-%dx%d',
-					$width,
-					$height
+					$atts['width'],
+					$atts['height']
 				);
 				$meta['sizes'][ $key ] = $resized;
-				$src = str_replace(
-					basename( $src ),
+				$atts['src'] = str_replace(
+					basename( $atts['src'] ),
 					$resized['file'],
-					$src
+					$atts['src']
 				);
 
 				wp_update_attachment_metadata( $att_id, $meta );
@@ -291,9 +291,9 @@ var_dump( $src, $width, $height, $classes );
 
 		// Generate the markup and return:
 		$html = $this->get_markup(
-			$src,
+			$atts['src'],
 			$hw_string,
-			$classes
+			$atts['classes']
 		);
 
 	 	return $html;
