@@ -193,14 +193,14 @@ class oxoDynamicImageResize
 		{
 			$upload_dir = wp_upload_dir();
 			$base_url   = $upload_dir['baseurl'];
-			// Let's see if the image belongs to our uploads directory...
+			// Let's see if the image belongs to our uploads directory…
 			$img_url = substr(
 				$atts['src'],
 				0,
 				strlen( $base_url )
 			);
 
-			// ...And if not: just return the image HTML string
+			// …And if not: just return the image HTML string
 			if ( $img_url !== $base_url )
 			{
 				return $this->getMarkUp(
@@ -247,16 +247,18 @@ class oxoDynamicImageResize
 					$atts['src']
 				);
 				$needs_resize = false;
+
 				// We found an image. Now abort the loop and process it.
 				break;
 			}
 		}
 
-		// If an image of such size was not found, ...
+		// If we need resizing
 		if ( $needs_resize )
 		{
+			// and if an image of such size was not found,…
 			$attached_file = get_attached_file( $att_id );
-			// ...we can create one.
+			// …we can create one.
 			$resized = image_make_intermediate_size(
 				$attached_file,
 				$atts['width'],
@@ -281,6 +283,7 @@ class oxoDynamicImageResize
 				);
 				// Push to Meta Data Array
 				$meta['sizes'][ $key ] = $resized;
+
 				// Update src for final MarkUp
 				$atts['src'] = str_replace(
 					basename( $atts['src'] ),
@@ -298,7 +301,7 @@ class oxoDynamicImageResize
 					'_wp_attachment_backup_sizes',
 					true
 				);
-
+#
 				// If an error occurred, we'll get back FALSE
 				// By default it's not a single meta entry, so we
 				// should get an array anyway. Unless WP_Cache went off.
