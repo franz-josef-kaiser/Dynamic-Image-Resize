@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) OR exit;
  * Plugin Name: Dynamic Image resize
  * Plugin URI:  http://unserkaiser.com/plugins/dynamic-image-resize/
  * Description: Dynamically resizes images. Enables the <code>[dynamic_image]</code> shortcode, pseudo-TimThumb but creates resized and cropped image files from existing media library entries. Usage: <code>[dynamic_image src="http://example.org/wp-content/uploads/2012/03/image.png" width="100" height="100"]</code>. Also offers a template tag.
- * Version:     1.3
+ * Version:     1.4
  * Author:      Franz Josef Kaiser <http://unserkaiser.com/contact/>
  * Author URI:  http://unserkaiser.com
  * License:     MIT
@@ -134,7 +134,7 @@ class oxoDynamicImageResize
 		$atts = array_map( 'trim', $atts );
 
 		return array(
-			'src'      => is_string( $atts['src'] )
+			'src'      => ! filter_var( $atts['src'], FILTER_VALIDATE_INT )
 				? esc_url( $atts['src'] )
 				: absint( $atts['src'] ),
 			'height'   => absint( $atts['height'] ),
@@ -177,12 +177,13 @@ class oxoDynamicImageResize
 		$needs_resize = true;
 		$file = 'No image';
 		$error = false;
+
 		// ID as src
-		if ( ! is_string( $atts['src'] ) )
+		if ( is_int( $atts['src'] ) )
 		{
 			$att_id = $atts['src'];
 			// returns false on failure
-			$atts['src'] = wp_get_attachment_url( $atts['src'] );
+			$atts['src'] = wp_get_attachment_url( $att_id );
 
 			// If nothing was found:
 			! $atts['src'] AND $error = true;
@@ -209,31 +210,21 @@ class oxoDynamicImageResize
 				);
 			}
 
-			// Look up the file in the database.
+			// Prepare file name for DB search.
 			$file = str_replace(
 				trailingslashit( $base_url ),
 				'',
 				$atts['src']
 			);
+			// Look up the file in the database.
 			$att_id = $this->getAttachment( $file );
-			// If no attachment record was found:
+			// If no attachment record was found: Prepare for an WP_Error.
 			! $att_id AND $error = true;
 		}
 
 		// Abort if the attachment wasn't found
 		if ( $error )
 		{
-			# @TODO Error handling with proper message
-			# @TODO Needs a test case
-			# remove $file in favor of $error_msg
-			/*
-			$data = get_plugin_data( __FILE__ );
-			$error_msg = "Plugin: {$data['Name']}: Version {$data['Version']}";
-			*/
-
-			# @TODO In case, we got an ID, but found no image:
-			# if ( ! $atts['src'] ) $file = $att_id;
-
 			return new WP_Error(
 				'no_attachment',
 				__( 'Attachment not found by the dynamic-image shortcode.', 'dyn_textdomain' ),
