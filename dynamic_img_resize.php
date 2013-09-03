@@ -189,7 +189,6 @@ class oxoDynamicImageResize
 		{
 			$upload_dir = wp_upload_dir();
 			$base_url   = $upload_dir['baseurl'];
-
 			// Let's see if the image belongs to our uploads directory...
 			$img_url = substr(
 				$atts['src'],
@@ -328,16 +327,18 @@ class oxoDynamicImageResize
 		global $wpdb;
 
 		$file   = like_escape( $file );
+		$sql = <<<SQL
+SELECT post_id
+	FROM {$wpdb->postmeta}
+	WHERE meta_key = '_wp_attachment_metadata'
+	  AND meta_value
+	  LIKE %s
+	LIMIT 1
+SQL;
+
 		$result = $wpdb->get_var( $wpdb->prepare(
-			"
-				SELECT post_id
-				FROM {$wpdb->postmeta}
-				WHERE meta_key = '_wp_attachment_metadata'
-				  AND meta_value
-				  LIKE %s
-				LIMIT 1;
-			",
-			"%{$file}%"
+			$sql,
+			"%".like_escape( $file )."%"
 		) );
 
 		// FALSE if no result
