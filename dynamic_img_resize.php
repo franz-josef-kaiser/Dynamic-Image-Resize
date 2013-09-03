@@ -194,7 +194,7 @@ class oxoDynamicImageResize
 				'',
 				$atts['src']
 			);
-			$att_id = $this->get_attachment( $file );
+			$att_id = $this->getAttachment( $file );
 
 			// If no attachment record was found:
 			! $att_id AND $error = true;
@@ -305,7 +305,7 @@ class oxoDynamicImageResize
 	 * @param string $file
 	 * @return mixed string/bool $result Attachment or FALSE if nothing was found (needed for error)
 	 */
-	public function get_attachment( $file )
+	public function getAttachment( $file )
 	{
 		global $wpdb;
 
