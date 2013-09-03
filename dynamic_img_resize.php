@@ -11,8 +11,9 @@ defined( 'ABSPATH' ) OR exit;
  */
 
 
-if ( ! class_exists( 'oxoDynamicImageResize' ) )
-{
+if ( class_exists( 'oxoDynamicImageResize' ) )
+	return;
+
 /**
  * @author Franz Josef Kaiser
  * @link http://unserkaiser.com
@@ -30,9 +31,10 @@ class oxoDynamicImageResize
 	/**
 	 * Constructor
 	 * Adds the shortcode
+	 *
 	 * @since 0.2
 	 * @param array $atts
-	 * @return \oxoDynamicImageResize
+	 * @return \oxoDynamicImageResize|\WP_Error
 	 */
 	public function __construct( $atts )
 	{
@@ -45,7 +47,7 @@ class oxoDynamicImageResize
 			);
 		}
 
-		$this->atts = $this->sanitize( $atts );
+		return $this->atts = $this->sanitize( $atts );
 	}
 
 	/**
@@ -125,6 +127,7 @@ class oxoDynamicImageResize
 
 		$needs_resize = true;
 
+		$file         = 'No image';
 		$error        = false;
 		// ID as src
 		if ( ! is_string( $src ) )
@@ -340,6 +343,3 @@ function dynamic_image_resize( $atts )
  * Use the same attributes as for the class
  */
 add_shortcode( 'dynamic_image', 'dynamic_image_resize' );
-
-
-} // endif;
