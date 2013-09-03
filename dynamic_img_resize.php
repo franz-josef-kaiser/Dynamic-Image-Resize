@@ -261,6 +261,7 @@ class oxoDynamicImageResize
 					$atts['src']
 				);
 				$needs_resize = false;
+				// We found an image. Now abort the loop and process it.
 				break;
 			}
 		}
@@ -286,19 +287,22 @@ class oxoDynamicImageResize
 				AND false !== $resized
 				)
 			{
-				// Let metadata know about our new size.
+				// Generate key for new size
 				$key = sprintf(
 					'resized-%dx%d',
 					$atts['width'],
 					$atts['height']
 				);
+				// Push to Meta Data Array
 				$meta['sizes'][ $key ] = $resized;
+				// Update src for final MarkUp
 				$atts['src'] = str_replace(
 					basename( $atts['src'] ),
 					$resized['file'],
 					$atts['src']
 				);
 
+				// Let metadata know about our new size.
 				wp_update_attachment_metadata( $att_id, $meta );
 
 				// Record in backup sizes, so everything's
@@ -309,10 +313,15 @@ class oxoDynamicImageResize
 					true
 				);
 
+				// If an error occurred, we'll get back FALSE
+				// By default it's not a single meta entry, so we
+				// should get an array anyway. Unless WP_Cache went off.
 				! is_array( $backup_sizes ) AND $backup_sizes = array();
 
+				// Add the new image to the size meta data array.
 				$backup_sizes[ $key ] = $resized;
 
+				// Update the meta entry.
 				update_post_meta(
 					$att_id,
 					'_wp_attachment_backup_sizes',
