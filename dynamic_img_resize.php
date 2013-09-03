@@ -47,7 +47,7 @@ class oxoDynamicImageResize
 			);
 		}
 
-		return $this->atts = $this->sanitize( $atts );
+		return $this->atts = $this->sanitizeAttributes( $atts );
 	}
 
 	/**
@@ -82,7 +82,7 @@ class oxoDynamicImageResize
 	 * @param array $atts
 	 * @return array $atts
 	 */
-	public function sanitize( $atts )
+	public function sanitizeAttributes( $atts )
 	{
 		// Get rid of eventual leading/trailing white spaces around atts
 		$atts = array_map(
