@@ -25,8 +25,9 @@ class oxoDynamicImageResize
 	/**
 	 * Holds the input attributes
 	 * @var array
+	 * @access protected
 	 */
-	public $atts = array();
+	protected $atts = array();
 
 	/**
 	 * Constructor
@@ -48,6 +49,24 @@ class oxoDynamicImageResize
 		}
 
 		return $this->atts = $this->sanitizeAttributes( $atts );
+	}
+
+	/**
+	 * Set the Attributes
+	 * @param $attributes
+	 */
+	public function setAttributes( $attributes )
+	{
+		$this->atts = $attributes;
+	}
+
+	/**
+	 * Get the Attributes
+	 * @return array
+	 */
+	public function getAttributes()
+	{
+		return $this->atts;
 	}
 
 	/**
