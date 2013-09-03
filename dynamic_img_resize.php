@@ -89,13 +89,17 @@ class oxoDynamicImageResize
 		);
 
 		# >>>> Sanitize
-		$atts['src']     = is_string( $atts['src'] )
+		$atts['src']        = is_string( $atts['src'] )
 			? esc_url( $atts['src'] )
 			: absint( $atts['src'] )
 		;
-		$atts['height']  = absint( $atts['height'] );
-		$atts['width']   = absint( $atts['width'] );
-		$atts['classes'] = esc_attr( $atts['classes'] );
+		$atts['height']     = absint( $atts['height'] );
+		$atts['width']      = absint( $atts['width'] );
+		$atts['classes']    = esc_attr( $atts['classes'] );
+		$atts['hw_markup']  = $atts['hw_markup'] === '' OR $atts['hw_markup'] === 'false'
+			? false
+			: true
+		;
 		# <<<<
 
 		return $atts;
@@ -117,6 +121,7 @@ class oxoDynamicImageResize
 				'width'   => '',
 				'height'  => '',
 				'classes' => '',
+				'hw_markup' => '',
 			),
 			$this->atts
 		), EXTR_SKIP );
@@ -154,7 +159,8 @@ class oxoDynamicImageResize
 				return $this->get_markup(
 					$img_url,
 					$hw_string,
-					$classes
+					$classes,
+					$hw_markup
 				);
 			}
 
@@ -262,7 +268,8 @@ class oxoDynamicImageResize
 		$html = $this->get_markup(
 			$src,
 			$hw_string,
-			$classes
+			$classes,
+			$hw_markup
 		);
 
 	 	return $html;
@@ -304,15 +311,16 @@ class oxoDynamicImageResize
 	 * @param string $src URl to the image
 	 * @param string $hw_string
 	 * @param string $classes
+	 * @param string $hw_markup
 	 * @return string $html
 	 */
-	public function get_markup( $src, $hw_string, $classes )
+	public function get_markup( $src, $hw_string, $classes, $hw_markup )
 	{
 		return sprintf(
 			'<img src="%s" %s %s />',
 			$src,
-			$hw_string,
-			"class='{$classes}'"
+			'class="'.$classes.'"',
+			$hw_markup ? $hw_string : ''
 		);
 	}
 } // END Class oxoDynamicImageResize
@@ -326,7 +334,7 @@ class oxoDynamicImageResize
 /**
  * Retrieve a dynamically/on-the-fly resized image
  * @since 0.2
- * @param array $atts Attributes: src(URi/ID), width, height, classes
+ * @param array $atts Attributes: src(URi/ID), width, height, classes, hw_markup
  * @return mixed string/html $html Image mark up
  */
 function dynamic_image_resize( $atts )
