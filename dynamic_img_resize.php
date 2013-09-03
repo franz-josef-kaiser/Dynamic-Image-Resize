@@ -11,9 +11,9 @@ defined( 'ABSPATH' ) OR exit;
  */
 
 
-if ( class_exists( 'oxoDynamicImageResize' ) )
-	return;
-
+if ( ! class_exists( 'oxoDynamicImageResize' ) )
+{
+var_dump( __FILE__ );
 /**
  * @author Franz Josef Kaiser
  * @link http://unserkaiser.com
@@ -120,21 +120,20 @@ class oxoDynamicImageResize
 				'height'  => '',
 				'classes' => '',
 			),
-			$this->atts
+			$this->atts,
+			'dynamic_image'
 		), EXTR_SKIP );
 
-		$hw_string    = image_hwstring( $width, $height );
-
+		$hw_string = image_hwstring( $width, $height );
 		$needs_resize = true;
-
-		$file         = 'No image';
-		$error        = false;
+		$file = 'No image';
+		$error = false;
 		// ID as src
 		if ( ! is_string( $src ) )
 		{
 			$att_id = $src;
 			// returns false on failure
-			$src    = wp_get_attachment_url( $src );
+			$src = wp_get_attachment_url( $src );
 
 			// If nothing was found:
 			! $src AND $error = true;
@@ -217,7 +216,7 @@ class oxoDynamicImageResize
 		{
 			$attached_file = get_attached_file( $att_id );
 			// ...we can create one.
-			$resized       = image_make_intermediate_size(
+			$resized = image_make_intermediate_size(
 				$attached_file,
 				$width,
 				$height,
@@ -343,3 +342,5 @@ function dynamic_image_resize( $atts )
  * Use the same attributes as for the class
  */
 add_shortcode( 'dynamic_image', 'dynamic_image_resize' );
+
+} // endif;
