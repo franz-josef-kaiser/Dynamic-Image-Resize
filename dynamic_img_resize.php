@@ -48,7 +48,6 @@ class oxoDynamicImageResize
 			);
 		}
 
-		$atts = $this->sanitizeAttributes( $atts );
 		return $this->setAttributes( $atts );
 	}
 
@@ -148,9 +147,12 @@ class oxoDynamicImageResize
 	{
 		$atts = $this->getAttributes();
 		$atts = $this->parseAttributes( $atts );
+var_dump( $atts );
+		$atts = $this->sanitizeAttributes( $atts );
+var_dump( $atts );
 		// parse defaults/attributes
 		extract( $atts, EXTR_SKIP );
-
+var_dump( $src, $width, $height, $classes );
 		$hw_string = image_hwstring( $width, $height );
 		$needs_resize = true;
 		$file = 'No image';
