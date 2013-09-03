@@ -48,7 +48,8 @@ class oxoDynamicImageResize
 			);
 		}
 
-		return $this->atts = $this->sanitizeAttributes( $atts );
+		$atts = $this->sanitizeAttributes( $atts );
+		return $this->setAttributes( $atts );
 	}
 
 	/**
