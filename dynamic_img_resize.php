@@ -102,6 +102,26 @@ class oxoDynamicImageResize
 	}
 
 	/**
+	 * Merges the Shortcode Attributes with input Arguments.
+	 * @param  array $atts
+	 * @return array $atts
+	 */
+	public function parseAttributes( $atts )
+	{
+		return shortcode_atts(
+			array(
+				'src'      => '',
+				'width'    => '',
+				'height'   => '',
+				'classes'  => '',
+				'hwmarkup' => '',
+			),
+			$atts,
+			'dynamic_image'
+		);
+	}
+
+	/**
 	 * Sanitize attributes
 	 * @since 0.5
 	 * @param array $atts
@@ -109,37 +129,24 @@ class oxoDynamicImageResize
 	 */
 	public function sanitizeAttributes( $atts )
 	{
-		// Get rid of eventual leading/trailing white spaces around atts
+		// Get rid of eventual leading/trailing white spaces around attributes.
 		$atts = array_map(
 			'trim',
 			$atts
 		);
 
 		# >>>> Sanitize
-		$atts['src']     = is_string( $atts['src'] )
+		$atts['src']      = is_string( $atts['src'] )
 			? esc_url( $atts['src'] )
 			: absint( $atts['src'] )
 		;
-		$atts['height']  = absint( $atts['height'] );
-		$atts['width']   = absint( $atts['width'] );
-		$atts['classes'] = esc_attr( $atts['classes'] );
+		$atts['height']   = absint( $atts['height'] );
+		$atts['width']    = absint( $atts['width'] );
+		$atts['classes']  = esc_attr( $atts['classes'] );
+		$atts['hwmarkup'] = 'true' === esc_attr( $atts['hwmarkup'] );
 		# <<<<
 
 		return $atts;
-	}
-
-	public function parseAttributes( $atts )
-	{
-		return shortcode_atts(
-			array(
-				'src'     => '',
-				'width'   => '',
-				'height'  => '',
-				'classes' => '',
-			),
-			$atts,
-			'dynamic_image'
-		);
 	}
 
 	public function setHeightWidthString( $width, $height )
@@ -169,8 +176,9 @@ class oxoDynamicImageResize
 			$atts['width'],
 			$atts['height']
 		);
-
 		$hw_string = $this->getHeightWidthString();
+		! $atts['hwmarkup'] AND $hw_string = '';
+var_dump( $atts );
 		$needs_resize = true;
 		$file = 'No image';
 		$error = false;
