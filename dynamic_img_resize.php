@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) OR exit;
  * Plugin Name: Dynamic Image resize
  * Plugin URI:  http://unserkaiser.com/plugins/dynamic-image-resize/
  * Description: Dynamically resizes images. Enables the <code>[dynamic_image]</code> shortcode, pseudo-TimThumb but creates resized and cropped image files from existing media library entries. Usage: <code>[dynamic_image src="http://example.org/wp-content/uploads/2012/03/image.png" width="100" height="100"]</code>. Also offers a template tag.
- * Version:     1.1
+ * Version:     1.2
  * Author:      Franz Josef Kaiser <http://unserkaiser.com/contact/>
  * Author URI:  http://unserkaiser.com
  * License:     MIT
@@ -143,7 +143,7 @@ class oxoDynamicImageResize
 		$atts['height']   = absint( $atts['height'] );
 		$atts['width']    = absint( $atts['width'] );
 		$atts['classes']  = esc_attr( $atts['classes'] );
-		$atts['hwmarkup'] = 'true' === esc_attr( $atts['hwmarkup'] );
+		$atts['hwmarkup'] = filter_var( $atts['hwmarkup'], FILTER_VALIDATE_BOOLEAN );
 		# <<<<
 
 		return $atts;
