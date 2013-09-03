@@ -117,7 +117,8 @@ class oxoDynamicImageResize
 				'hwmarkup' => 'true',
 			),
 			$atts,
-			'dynamic-image'
+			// If the shortcode name changes, this arg must align.
+			'dynamic_image'
 		);
 	}
 
@@ -417,6 +418,8 @@ function dynamic_image_resize( $atts )
 /**
  * Add a short code named [dynamic_image]
  * Use the same attributes as for the class
+ * If the shortcode name changes, the third argument
+ * for `shortcode_atts()` must change as well.
  */
 add_shortcode( 'dynamic_image', 'dynamic_image_resize' );
 
