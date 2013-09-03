@@ -114,7 +114,7 @@ class oxoDynamicImageResize
 				'width'    => '',
 				'height'   => '',
 				'classes'  => '',
-				'hwmarkup' => '',
+				'hwmarkup' => 'true',
 			),
 			$atts,
 			'dynamic_image'
@@ -125,28 +125,22 @@ class oxoDynamicImageResize
 	 * Sanitize attributes
 	 * @since 0.5
 	 * @param array $atts
-	 * @return array $atts
+	 * @return array
 	 */
 	public function sanitizeAttributes( $atts )
 	{
 		// Get rid of eventual leading/trailing white spaces around attributes.
-		$atts = array_map(
-			'trim',
-			$atts
+		$atts = array_map( 'trim', $atts );
+
+		return array(
+			'src'      => is_string( $atts['src'] )
+				? esc_url( $atts['src'] )
+				: absint( $atts['src'] ),
+			'height'   => absint( $atts['height'] ),
+			'width'    => absint( $atts['width'] ),
+			'classes'  => esc_attr( $atts['classes'] ),
+			'hwmarkup' => filter_var( $atts['hwmarkup'], FILTER_VALIDATE_BOOLEAN )
 		);
-
-		# >>>> Sanitize
-		$atts['src']      = is_string( $atts['src'] )
-			? esc_url( $atts['src'] )
-			: absint( $atts['src'] )
-		;
-		$atts['height']   = absint( $atts['height'] );
-		$atts['width']    = absint( $atts['width'] );
-		$atts['classes']  = esc_attr( $atts['classes'] );
-		$atts['hwmarkup'] = filter_var( $atts['hwmarkup'], FILTER_VALIDATE_BOOLEAN );
-		# <<<<
-
-		return $atts;
 	}
 
 	public function setHeightWidthString( $width, $height )
