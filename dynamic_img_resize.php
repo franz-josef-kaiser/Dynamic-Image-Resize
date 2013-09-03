@@ -25,9 +25,15 @@ class oxoDynamicImageResize
 	/**
 	 * Holds the input attributes
 	 * @var array
-	 * @access protected
+	 * @access private
 	 */
-	protected $atts = array();
+	private $atts = array();
+
+	/**
+	 * Holds the HTML MarkUp for heigth/width Attributes
+	 * @var string
+	 */
+	private $hw_string = '';
 
 	/**
 	 * Constructor
@@ -136,6 +142,16 @@ class oxoDynamicImageResize
 		);
 	}
 
+	public function setHeightWidthString( $width, $height )
+	{
+		$this->hw_string = image_hwstring( $width, $height );
+	}
+
+	public function getHeightWidthString()
+	{
+		return $this->hw_string;
+	}
+
 	/**
 	 * Builds the image
 	 * @since    0.1
@@ -149,10 +165,12 @@ class oxoDynamicImageResize
 		$atts = $this->parseAttributes( $atts );
 		$atts = $this->sanitizeAttributes( $atts );
 
-		$hw_string = image_hwstring(
+		$this->setHeightWidthString(
 			$atts['width'],
 			$atts['height']
 		);
+
+		$hw_string = $this->getHeightWidthString();
 		$needs_resize = true;
 		$file = 'No image';
 		$error = false;
