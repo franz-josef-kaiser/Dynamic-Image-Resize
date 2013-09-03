@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) OR exit;
  * Plugin Name: Dynamic Image resize
  * Plugin URI:  http://unserkaiser.com/plugins/dynamic-image-resize/
  * Description: Dynamically resizes images. Enables the <code>[dynamic_image]</code> shortcode, pseudo-TimThumb but creates resized and cropped image files from existing media library entries. Usage: <code>[dynamic_image src="http://example.org/wp-content/uploads/2012/03/image.png" width="100" height="100"]</code>. Also offers a template tag.
- * Version:     0.8
+ * Version:     0.9
  * Author:      Franz Josef Kaiser <http://unserkaiser.com/contact/>
  * Author URI:  http://unserkaiser.com
  * License:     MIT
@@ -189,24 +189,22 @@ class oxoDynamicImageResize
 		{
 			$upload_dir = wp_upload_dir();
 			$base_url   = $upload_dir['baseurl'];
-var_dump( $upload_dir );
 			// Let's see if the image belongs to our uploads directory...
 			$img_url = substr(
 				$atts['src'],
 				0,
 				strlen( $base_url )
 			);
-var_dump( $atts['src'], $img_url, $img_url !== $base_url );
+
 			// ...And if not: just return the image HTML string
-# TEMPORÄR auskommentiert
-			/*if ( $img_url !== $base_url )
+			if ( $img_url !== $base_url )
 			{
 				return $this->getMarkUp(
 					$img_url,
 					$hw_string,
 					$atts['classes']
 				);
-			}*/
+			}
 
 			// Look up the file in the database.
 			$file = str_replace(
@@ -215,11 +213,10 @@ var_dump( $atts['src'], $img_url, $img_url !== $base_url );
 				$atts['src']
 			);
 			$att_id = $this->getAttachment( $file );
-
 			// If no attachment record was found:
 			! $att_id AND $error = true;
 		}
-var_dump( $att_id );
+
 		// Abort if the attachment wasn't found
 		if ( $error )
 		{
@@ -272,7 +269,14 @@ var_dump( $att_id );
 				true
 			);
 
-			if ( ! is_wp_error( $resized ) )
+			if (
+				// \WP_Error returned from WP_Image_Editor_Imagick, WP_Image_Editor_GD
+				// or any other editor that was added using the 'wp_image_editors'-filter.
+				! is_wp_error( $resized )
+				// FALSE returned from image_make_intermediate_size()
+				// when no width/height were provided.
+				AND false !== $resized
+				)
 			{
 				// Let metadata know about our new size.
 				$key = sprintf(
