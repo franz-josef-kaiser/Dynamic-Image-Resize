@@ -18,7 +18,6 @@ if ( ! class_exists( 'oxoDynamicImageResize' ) )
  * @author Franz Josef Kaiser
  * @link http://unserkaiser.com
  * @license MIT
- * @since 0.2
  */
 class oxoDynamicImageResize
 {
@@ -38,8 +37,6 @@ class oxoDynamicImageResize
 	/**
 	 * Constructor
 	 * Adds the shortcode
-	 *
-	 * @since 0.2
 	 * @param array $atts
 	 * @return \oxoDynamicImageResize|\WP_Error
 	 */
@@ -60,6 +57,7 @@ class oxoDynamicImageResize
 	/**
 	 * Set the Attributes
 	 * @param $atts
+	 * @return void
 	 */
 	public function setAttributes( $atts )
 	{
@@ -76,17 +74,38 @@ class oxoDynamicImageResize
 	}
 
 	/**
-	 * Returns the image
-	 * @since 0.2
-	 * @return string $output Image Html Mark-Up or Error (Guest/Subscriber get an empty string)
+	 * Returns the image HTML or the Error message.
+	 * @return string
 	 */
 	public function __toString()
+	{
+		return $this->getHTMLOutput();
+	}
+
+	/**
+	 * Wrapper function that combines the HTML and Error output.
+	 * Makes it easier for extending classes to just override the __toString() method.
+	 * @return mixed|string
+	 */
+	public function getHTMLOutput()
 	{
 		$output = $this->getImage();
 
 		if ( ! is_wp_error( $output ) )
 			return $output;
 
+		return $this->getErrorMessage( $output );
+	}
+
+	/**
+	 * Displays an Error Message if an error was found instead of an Image.
+	 * Only displays for logged in users who are allowed to edit posts.
+	 * Only is available when WP_DEBUG is set to TRUE.
+	 * @param $output \WP_Error
+	 * @return string
+	 */
+	public function getErrorMessage( $output )
+	{
 		// No error message for Guests or Subscribers
 		// Assuming that no one has activated caching plugins when debugging
 		// and not set WP_DEBUG to TRUE on a live site
@@ -99,6 +118,7 @@ class oxoDynamicImageResize
 
 		// Error output for development
 		return "{$output->get_error_message( 'no_attachment' )}: {$output->get_error_data()}";
+
 	}
 
 	/**
@@ -124,7 +144,6 @@ class oxoDynamicImageResize
 
 	/**
 	 * Sanitize attributes
-	 * @since 0.5
 	 * @param array $atts
 	 * @return array
 	 */
@@ -144,11 +163,21 @@ class oxoDynamicImageResize
 		);
 	}
 
+	/**
+	 * Sets the $hw_string class var that holds the height/width HTML attribute string.
+	 * @param  int $width
+	 * @param  int $height
+	 * @return void
+	 */
 	public function setHeightWidthString( $width, $height )
 	{
 		$this->hw_string = image_hwstring( $width, $height );
 	}
 
+	/**
+	 * Gets the height/width HTML string.
+	 * @return string
+	 */
 	public function getHeightWidthString()
 	{
 		return $this->hw_string;
@@ -156,7 +185,6 @@ class oxoDynamicImageResize
 
 	/**
 	 * Builds the image
-	 * @since    0.1
 	 * @uses     image_make_intermediate_size
 	 * @internal param array $atts
 	 * @return   mixed string/WP Error $html
@@ -234,7 +262,7 @@ class oxoDynamicImageResize
 
 		// Look through the attachment meta data for an image that fits our size.
 		$meta = wp_get_attachment_metadata( $att_id );
-		foreach( $meta['sizes'] as $key => $size )
+		foreach( $meta['sizes'] as $size )
 		{
 			if (
 				$atts['width'] === $size['width']
@@ -331,7 +359,6 @@ class oxoDynamicImageResize
 
 	/**
 	 * Query for the file by URl
-	 * @since 0.2
 	 * @param  string $url
 	 * @return mixed string/bool $result Attachment or FALSE if nothing was found (needed for error)
 	 */
@@ -374,7 +401,6 @@ SQL;
 
 	/**
 	 * Builds the markup
-	 * @since 0.2
 	 * @param string $src URl to the image
 	 * @param string $hw_string
 	 * @param string $classes
@@ -383,8 +409,8 @@ SQL;
 	public function getMarkUp( $src, $hw_string, $classes )
 	{
 		return sprintf(
-			'<img src="%s" %s %s />',
-			$src,
+			'<img %s %s %s />',
+			"{src='$src'}",
 			$hw_string,
 			! empty( $classes ) ? "class='{$classes}'" : ''
 		);
@@ -399,7 +425,6 @@ SQL;
 
 /**
  * Retrieve a dynamically/on-the-fly resized image
- * @since 0.2
  * @param array $atts Attributes: src(URi/ID), width, height, classes
  * @return mixed string/html $html Image mark up
  */
