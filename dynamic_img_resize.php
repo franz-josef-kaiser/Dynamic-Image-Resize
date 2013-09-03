@@ -53,11 +53,11 @@ class oxoDynamicImageResize
 
 	/**
 	 * Set the Attributes
-	 * @param $attributes
+	 * @param $atts
 	 */
-	public function setAttributes( $attributes )
+	public function setAttributes( $atts )
 	{
-		$this->atts = $attributes;
+		$this->atts = $atts;
 	}
 
 	/**
