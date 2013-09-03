@@ -26,7 +26,7 @@ class oxoDynamicImageResize
 	 * Holds the input attributes
 	 * @var array
 	 */
-	public $atts;
+	public $atts = array();
 
 	/**
 	 * Constructor
