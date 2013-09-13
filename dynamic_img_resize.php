@@ -389,6 +389,7 @@ class oxoDynamicImageResize
 	 */
 	public function getBaseUrl()
 	{
+		if ( !$this->baseUrl ) $this->setBaseUrl();
 		return $this->baseUrl;
 	}
 
