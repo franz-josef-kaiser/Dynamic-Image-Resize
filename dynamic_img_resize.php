@@ -389,6 +389,7 @@ class oxoDynamicImageResize
 	 */
 	public function getBaseUrl()
 	{
+		if ( !$this->baseUrl ) $this->setBaseUrl();
 		return $this->baseUrl;
 	}
 
@@ -484,9 +485,9 @@ SQL;
 	{
 		return sprintf(
 			'<img %s %s %s />',
-			"{src='$src'}",
+			"src=\"$src\"",
 			$hw_string,
-			! empty( $classes ) ? "class='{$classes}'" : ''
+			! empty( $classes ) ? "class=\"$classes\"" : ''
 		);
 	}
 } // END Class oxoDynamicImageResize
