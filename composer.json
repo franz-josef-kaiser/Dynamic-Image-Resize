@@ -2,7 +2,7 @@
 	"name"        : "wcm/dynamic-image-resize",
 	"description" : "Enables WordPress custom image sizes on the fly. Can be used with a shortcode or a template tag.",
 	"type"        : "library",
-	"homepage"    : "https://github.com/franz-josef-kaiser/Dynamic-Image-Resize",
+	"homepage"    : "http://franz-josef-kaiser.github.io/Dynamic-Image-Resize/",
 	"license"     : "MIT",
 	"require"     : {
 		"php"                 : ">=5.2.7",
