@@ -1,0 +1,41 @@
+{
+	"name"           : "wcm/dynamic-image-resize",
+	"description"    : "Enables WordPress custom image sizes on the fly. Can be used with a shortcode or a template tag.",
+	"version"        : "1.6.1",
+	"homepage"       : "http://franz-josef-kaiser.github.io/Dynamic-Image-Resize/",
+	"main"           : "dynamic_img_resize.php",
+	"readmeFilename" : "README.md",
+	"private"        : false,
+	"keywords"       : [
+		"wordpress",
+		"plugin",
+		"responsive",
+		"adaptive",
+		"dynamic",
+		"image",
+		"resize"
+	],
+	"repository" : {
+		"type" : "git",
+		"url"  : "https://github.com/franz-josef-kaiser/Dynamic-Image-Resize"
+	},
+	"author" : {
+		"name"  : "Franz Josef Kaiser",
+		"email" : "wecodemore@gmail.com",
+		"url"   : "http://unserkaiser.com/"
+	},
+	"licenses" : [
+		{
+			"type" : "MIT",
+			"url"  : "http://www.tldrlegal.com/license/mit-license"
+		}
+	],
+	"engines" : {
+		"node" : ">= 0.6.x"
+	},
+	"scripts" : {
+		"dist"        : "",
+		"postinstall" : "",
+		"start"       : ""
+	}
+}

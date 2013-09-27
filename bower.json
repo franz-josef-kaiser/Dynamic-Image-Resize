@@ -1,0 +1,11 @@
+{
+	"name"    : "wcm/dynamic-image-resize",
+	"version" : "1.6.1",
+	"main"    : "dynamic_img_resize.php",
+	"ignore" : [
+		".git",
+		"assets/scripts/vendor",
+		"assets/styles/vendor",
+		"node_modules"
+	]
+}
