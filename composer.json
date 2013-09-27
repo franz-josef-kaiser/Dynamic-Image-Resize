@@ -1,23 +1,30 @@
 {
-	"name"       : "wcm/dynamic-image-resize",
-	"description": "Enables WordPress custom image sizes on the fly. Can be used with a shortcode or a template tag.",
-	"keywords"   : ["wordpress","plugin","responsive","adaptive","dynamic","image","images","resize","resizer"],
-	"type"       : "wordpress-plugin",
-	"homepage"   : "https://github.com/franz-josef-kaiser/Dynamic-Image-Resize",
-	"license"    : "MIT",
-	"authors"    : [
+	"name"        : "wcm/dynamic-image-resize",
+	"description" : "Enables WordPress custom image sizes on the fly. Can be used with a shortcode or a template tag.",
+	"type"        : "library",
+	"homepage"    : "https://github.com/franz-josef-kaiser/Dynamic-Image-Resize",
+	"license"     : "MIT",
+	"require"     : {
+		"php"                 : ">=5.2.7",
+		"composer/installers" : "~1.0"
+	},
+	"authors"     : [
 		{
-			"name"    : "Franz Josef Kaiser",
-			"email"   : "franzjosef@unserkaiser.com",
-			"homepage": "http://www.unserkaiser.com/"
+			"name"  : "Franz Josef Kaiser",
+			"email" : "franzjosef@unserkaiser.com"
 		}
 	],
-	"support"    : {
-		"issues": "https://github.com/franz-josef-kaiser/Dynamic-Image-Resize/issues",
-		"source": "https://github.com/franz-josef-kaiser/Dynamic-Image-Resize"
+	"support"     : {
+		"issues" : "https://github.com/franz-josef-kaiser/Dynamic-Image-Resize/issues",
+		"source" : "https://github.com/franz-josef-kaiser/Dynamic-Image-Resize"
 	},
-	"require"    : {
-		"php": ">=5.2.7",
-		"composer/installers": "~1.0"
-	}
+	"keywords"    : [
+		"wordpress",
+		"plugin",
+		"responsive",
+		"adaptive",
+		"dynamic",
+		"image",
+		"resize"
+	]
 }
