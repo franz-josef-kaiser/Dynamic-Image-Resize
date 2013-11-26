@@ -17,3 +17,5 @@ Visit *Franz Josef Kaiser* at [his homepage](http://unserkaiser.com) or get soci
 ## Dedicated Project Page
 
 For further info, please [visit the project page](http://franz-josef-kaiser.github.io/Dynamic-Image-Resize/).
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/franz-josef-kaiser/dynamic-image-resize/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
