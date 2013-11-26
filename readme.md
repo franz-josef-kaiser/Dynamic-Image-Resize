@@ -1,4 +1,4 @@
-h2. Dynamic Image resizing in WordPress
+# Dynamic Image resizing in WordPress
 
 version: _v1.6.1_
 
@@ -12,8 +12,8 @@ Known issues: none
 
 Visit Franz Josef Kaiser at [his homepage](http://unserkaiser.com) or get social on [Google+](https://plus.google.com/+FranzJosefKaiser) or [on Twitter](https://twitter.com/unserkaiser).
 
-----------------------------------------------------------------
+-----
 
-h3. Dedicated Project Page
+## Dedicated Project Page
 
 For further info, please [visit the project page](http://franz-josef-kaiser.github.io/Dynamic-Image-Resize/).
