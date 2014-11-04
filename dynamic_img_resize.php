@@ -458,7 +458,18 @@ class oxoDynamicImageResize
 	{
 		global $wpdb;
 
-		$url = $wpdb->prepare( "%s", "%".like_escape( $url )."%" );
+		if (
+			// Starting from WordPress 4.0 like_escape() is deprecated in favour of $wpdb->esc_like().
+			// By default use $wpdb->esc_like(), else fall back to like_escape().
+			method_exists( $wpdb, 'esc_like' )
+			)
+		{
+			$url = $wpdb->prepare( "%s", "%".$wpdb->esc_like( $url )."%" );
+		}
+		else
+		{
+			$url = $wpdb->prepare( "%s", "%".like_escape( $url )."%" );
+		}
 		return <<<SQL
 SELECT post_id
 	FROM {$wpdb->postmeta}
