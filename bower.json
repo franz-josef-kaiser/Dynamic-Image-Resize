@@ -1,6 +1,6 @@
 {
 	"name"    : "wcm/dynamic-image-resize",
-	"version" : "1.6.1",
+	"version" : "1.6.2",
 	"main"    : "dynamic_img_resize.php",
 	"ignore" : [
 		".git",
