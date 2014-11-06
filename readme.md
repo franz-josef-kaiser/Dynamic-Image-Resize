@@ -1,6 +1,6 @@
 # Dynamic Image resizing in WordPress
 
-version: _v1.6.2_
+version: _v1.6.3_
 
 "Dynamic Image Resize" is a WordPress (MU-)plugin that offers a shortcode and a template tag to resize images "on the flight" without the need of TimThumb, but with WP core functions.
 
