@@ -14,6 +14,12 @@ Visit *Franz Josef Kaiser* at [his homepage](http://unserkaiser.com) or get soci
 
 -----
 
+## Updates
+
+If you are really not using Composer to keep your install up to date and don't have this plugin running as mu-plugin or included in your Theme, I recommend [using the GitHub plugin updater](https://github.com/afragen/github-updater). This plugin is compatible.
+
+-----
+
 ## Dedicated Project Page
 
 For further info, please [visit the project page](http://franz-josef-kaiser.github.io/Dynamic-Image-Resize/).
